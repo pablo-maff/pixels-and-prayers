@@ -26,7 +26,7 @@ export function Counter({ initialValue = 0, upperLimit, lowerLimit }: CounterPro
         <Button
           aria-label="decrement"
           onClick={() => setCount((prevCount) => prevCount - 1)}
-          disabled={Boolean(lowerLimit)}
+          disabled={Boolean(lowerLimit === 0 || lowerLimit)}
         >
           <span>-</span>
         </Button>
