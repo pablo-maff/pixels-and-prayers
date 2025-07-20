@@ -87,4 +87,17 @@ describe('Counter', () => {
 
     expect(screen.getByRole('button', { name: 'decrement' })).toHaveAttribute('disabled');
   });
+
+  it('reset button resets the state to its original value when pressed', async () => {
+    render(<Counter />);
+
+    const user = userEvent.setup();
+
+    user.click(screen.getByRole('button', { name: 'increment' }));
+    user.click(screen.getByRole('button', { name: 'reset' }));
+
+    const counterStatus = await screen.findByRole('status', { name: 'counter' });
+
+    expect(counterStatus).toHaveTextContent('0');
+  });
 });
