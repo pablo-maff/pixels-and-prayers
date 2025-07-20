@@ -70,7 +70,7 @@ describe('Counter', () => {
   it('+ button is disabled if upper limit is 0 and value is 0', () => {
     render(<Counter upperLimit={0} />);
 
-    expect(screen.getByRole('button', { name: 'increment' })).toHaveAttribute('disabled');
+    expect(screen.getByRole('button', { name: 'increment' })).toBeDisabled();
   });
 
   it('Can not exceed lower limit', async () => {
@@ -88,7 +88,7 @@ describe('Counter', () => {
   it('- button is disabled if lower limit is 0 and value is 0', () => {
     render(<Counter lowerLimit={0} />);
 
-    expect(screen.getByRole('button', { name: 'decrement' })).toHaveAttribute('disabled');
+    expect(screen.getByRole('button', { name: 'decrement' })).toBeDisabled();
   });
 
   it('reset button resets the state to its original value when pressed', async () => {
@@ -107,7 +107,7 @@ describe('Counter', () => {
   it('Reset button is disabled if value is equal to initial value', () => {
     render(<Counter />);
 
-    expect(screen.getByRole('button', { name: 'reset' })).toHaveAttribute('disabled');
+    expect(screen.getByRole('button', { name: 'reset' })).toBeDisabled();
   });
 
   it('Increment counter just before hitting the upper limit', async () => {
