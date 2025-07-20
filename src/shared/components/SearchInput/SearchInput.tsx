@@ -10,6 +10,11 @@ export function SearchInput({ items, onMatch }: SearchInputProps) {
   const [searchValue, setSearchValue] = useState('');
 
   function handleOnMatch() {
+    if (!searchValue) {
+      onMatch([]);
+      return;
+    }
+
     const match = items.filter((item) =>
       item.toLowerCase().includes(searchValue.trim().toLowerCase()),
     );
