@@ -1,5 +1,5 @@
 import { act, render } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useDebounce } from './useDebounce';
 import { useState } from 'react';
 import userEvent from '@testing-library/user-event';
@@ -14,8 +14,6 @@ import userEvent from '@testing-library/user-event';
  * 6. Should update the debounced value when the input changes, even if it’s the same as before
  * 7. Should be generic and work with any type, not just strings
  */
-
-vi.useFakeTimers();
 
 function TestComponent({ initialValue = '', delay }: { initialValue: string; delay?: number }) {
   const [value, setValue] = useState(initialValue);
@@ -41,8 +39,29 @@ const second = 'second';
 describe('useDebounce', () => {
   let user: ReturnType<typeof userEvent.setup>;
 
+  // ! We need to trick RTL into thinking that jest is running to properly use fakeTimers and user actions https://github.com/testing-library/user-event/issues/1115
+  beforeAll(() => {
+    // https://vitest.dev/api/vi.html#vi-stubglobal
+    vi.stubGlobal('jest', {
+      advanceTimersByTime: vi.advanceTimersByTime.bind(vi),
+    });
+  });
+
   beforeEach(() => {
-    user = userEvent.setup();
+    vi.useFakeTimers();
+
+    user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime.bind(vi) });
+  });
+
+  afterEach(() => {
+    // Ensures all pending timers are flushed before switching to real timers
+    // Reference: https://testing-library.com/docs/using-fake-timers/
+    vi.runOnlyPendingTimers();
+    vi.useRealTimers();
+  });
+
+  afterAll(() => {
+    vi.unstubAllGlobals();
   });
 
   it('should return a value after a default delay of 500ms', () => {
