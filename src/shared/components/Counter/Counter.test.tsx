@@ -109,4 +109,16 @@ describe('Counter', () => {
 
     expect(screen.getByRole('button', { name: 'reset' })).toHaveAttribute('disabled');
   });
+
+  it('Increment counter just before hitting the upper limit', async () => {
+    render(<Counter initialValue={9} upperLimit={10} />);
+
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole('button', { name: 'increment' }));
+
+    const counterStatus = await screen.findByRole('status', { name: 'counter' });
+
+    expect(counterStatus).toHaveTextContent('10');
+  });
 });
