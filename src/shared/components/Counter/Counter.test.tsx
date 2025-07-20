@@ -43,7 +43,7 @@ describe('Counter', () => {
 
     const user = userEvent.setup();
 
-    await user.click(screen.getByRole('button', { name: 'decrease' }));
+    await user.click(screen.getByRole('button', { name: 'decrement' }));
 
     const counterStatus = await screen.findByRole('status', { name: 'counter' });
 

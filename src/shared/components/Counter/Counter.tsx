@@ -13,6 +13,9 @@ export function Counter({ initialValue = 0 }) {
         <Button onClick={() => setCount((prevCount) => prevCount + 1)} aria-label="increment">
           <span>+</span>
         </Button>
+        <Button onClick={() => setCount((prevCount) => prevCount - 1)} aria-label="decrement">
+          <span>-</span>
+        </Button>
       </div>
     </div>
   );
