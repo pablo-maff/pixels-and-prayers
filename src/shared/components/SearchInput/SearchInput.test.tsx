@@ -45,4 +45,20 @@ describe('SearchInput', () => {
 
     expect(handleMatch).toHaveBeenCalledWith([userInput]);
   });
+
+  it('should return an item that matches the user input even if casing is different and there is surrounding whitespace', async () => {
+    const items = [userInput, 'not what the user wants'];
+
+    const handleMatch = vi.fn();
+
+    render(<SearchInput items={items} onMatch={handleMatch} />);
+
+    const input = screen.getByRole('textbox', { name: 'search' });
+
+    await user.type(input, ' tadej pogačar is the ultimAte pEdaling sardine ');
+
+    await user.click(screen.getByRole('button'));
+
+    expect(handleMatch).toHaveBeenCalledWith([userInput]);
+  });
 });
