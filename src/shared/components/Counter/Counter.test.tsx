@@ -71,7 +71,7 @@ describe('Counter', () => {
   });
 
   it('Can not exceed lower limit', async () => {
-    render(<Counter lowerLimit={0} />);
+    render(<Counter initialValue={-10} lowerLimit={-10} />);
 
     const user = userEvent.setup();
 

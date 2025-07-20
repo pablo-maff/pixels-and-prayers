@@ -4,9 +4,10 @@ import { useState } from 'react';
 interface CounterProps {
   initialValue?: number;
   upperLimit?: number;
+  lowerLimit?: number;
 }
 
-export function Counter({ initialValue = 0, upperLimit }: CounterProps) {
+export function Counter({ initialValue = 0, upperLimit, lowerLimit }: CounterProps) {
   const [count, setCount] = useState(initialValue);
 
   return (
@@ -22,7 +23,11 @@ export function Counter({ initialValue = 0, upperLimit }: CounterProps) {
         >
           <span>+</span>
         </Button>
-        <Button onClick={() => setCount((prevCount) => prevCount - 1)} aria-label="decrement">
+        <Button
+          aria-label="decrement"
+          onClick={() => setCount((prevCount) => prevCount - 1)}
+          disabled={Boolean(lowerLimit)}
+        >
           <span>-</span>
         </Button>
       </div>
