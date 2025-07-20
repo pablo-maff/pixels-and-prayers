@@ -8,10 +8,19 @@ Here are **hands-on exercises** focused on exploring edge cases and real-world u
 
 **Build:** A `<Counter />` component  
 **Requirements:**
-- Increment and decrement buttons
-- Cannot go below 0 or above 10
-- Reset button to set value to 5
-- Display message if trying to exceed limits
+- Default value is 0
+- Can set a custom initial value
+- Can increase its value by 1 when + button is pressed
+- Can decrease its value by 1 when - button is pressed
+- Can't exceed upper limit
+- Can't exceed lower limit
+- + button is disabled if trying to exceed upper limit
+- + button is disabled if upper limit is 0
+- - button is disabled if trying to exceed lower limit
+- Reset button to go back to the first count state
+- Reset button is disabled if value is equal to initial value
+- Increment counter just before hitting the upper limit
+- Decrement counter just before hitting the lower limit
 
 ---
 

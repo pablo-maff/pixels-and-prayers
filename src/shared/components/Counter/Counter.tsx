@@ -1,5 +1,6 @@
 import { Button } from '@components/Button/Button';
 import { useRef, useState } from 'react';
+import styles from './Counter.module.scss';
 
 interface CounterProps {
   initialValue?: number;
@@ -12,25 +13,30 @@ export function Counter({ initialValue = 0, upperLimit, lowerLimit }: CounterPro
   const initialValueRef = useRef(initialValue);
 
   return (
-    <div>
-      <output aria-label="counter">{count}</output>
-      <div>
-        <Button
-          aria-label="increment"
-          onClick={() => setCount((prevCount) => prevCount + 1)}
-          disabled={Boolean(count === upperLimit)}
-        >
-          <span>+</span>
-        </Button>
+    <div className={styles.counter}>
+      <output className={styles.output} aria-label="counter">
+        {count}
+      </output>
+
+      <div className={styles.controls}>
         <Button
           aria-label="decrement"
           onClick={() => setCount((prevCount) => prevCount - 1)}
           disabled={Boolean(count === lowerLimit)}
         >
-          <span>-</span>
+          <span aria-hidden="true">-</span>
+        </Button>
+
+        <Button
+          aria-label="increment"
+          onClick={() => setCount((prevCount) => prevCount + 1)}
+          disabled={Boolean(count === upperLimit)}
+        >
+          <span aria-hidden="true">+</span>
         </Button>
       </div>
-      <div>
+
+      <div className={styles.reset}>
         <Button
           aria-label="reset"
           onClick={() => setCount(initialValueRef.current)}
