@@ -36,7 +36,7 @@ export function Counter({ initialValue = 0, upperLimit, lowerLimit }: CounterPro
         <Button
           aria-label="reset"
           onClick={() => setCount(initialValueRef.current)}
-          disabled={Boolean(initialValue === initialValueRef.current)}
+          disabled={Boolean(count === initialValueRef.current)}
         >
           <span>Reset</span>
         </Button>

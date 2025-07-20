@@ -17,6 +17,8 @@ import userEvent from '@testing-library/user-event';
 // - - button is disabled if trying to exceed lower limit
 // - Reset button to go back to the first count state
 // - Reset button is disabled if value is equal to initial value
+// - Increment counter just before hitting the upper limit
+// - Decrement counter just before hitting the lower limit
 
 describe('Counter', () => {
   it('has a default value of 0', () => {
@@ -94,8 +96,8 @@ describe('Counter', () => {
 
     const user = userEvent.setup();
 
-    user.click(screen.getByRole('button', { name: 'increment' }));
-    user.click(screen.getByRole('button', { name: 'reset' }));
+    await user.click(screen.getByRole('button', { name: 'increment' }));
+    await user.click(screen.getByRole('button', { name: 'reset' }));
 
     const counterStatus = await screen.findByRole('status', { name: 'counter' });
 
