@@ -37,4 +37,16 @@ describe('Counter', () => {
 
     expect(counterStatus).toHaveTextContent('1');
   });
+
+  it('decreases its value by 1 when "-" button is pressed', async () => {
+    render(<Counter />);
+
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole('button', { name: 'decrease' }));
+
+    const counterStatus = await screen.findByRole('status', { name: 'counter' });
+
+    expect(counterStatus).toHaveTextContent('-1');
+  });
 });
