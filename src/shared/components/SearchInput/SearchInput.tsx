@@ -10,7 +10,7 @@ export function SearchInput({ items, onMatch }: SearchInputProps) {
   const [searchValue, setSearchValue] = useState('');
 
   function handleOnMatch() {
-    const match = items.filter((i) => i === searchValue);
+    const match = items.filter((item) => item.toLowerCase() === searchValue.trim().toLowerCase());
 
     if (!match.length) {
       onMatch(['No results found']);
