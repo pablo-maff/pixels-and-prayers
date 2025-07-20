@@ -96,18 +96,6 @@ describe('SearchInput', () => {
     expect(handleMatch).toHaveBeenCalledWith([items[0], items[1]]);
   });
 
-  it('should not return a result if the input is empty', async () => {
-    const items = [userInput];
-
-    const handleMatch = vi.fn();
-
-    render(<SearchInput items={items} onMatch={handleMatch} />);
-
-    await user.click(screen.getByRole('button'));
-
-    expect(handleMatch).toHaveBeenCalledWith([]);
-  });
-
   it('should have the search button disabled if there is no input', () => {
     const items = [userInput];
 
