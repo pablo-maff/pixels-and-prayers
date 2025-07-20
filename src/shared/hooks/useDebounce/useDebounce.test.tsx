@@ -113,7 +113,7 @@ describe('useDebounce', () => {
     expect(output).toHaveTextContent(second);
   });
 
-  it('Should cancel pending updates on unmount', () => {
+  it('should cancel pending updates on unmount', () => {
     const { unmount, queryByRole } = render(<TestComponent initialValue={first} />);
 
     act(() => vi.advanceTimersByTime(300));
@@ -131,5 +131,15 @@ describe('useDebounce', () => {
     expect(consoleErrorSpy).not.toHaveBeenCalled();
 
     consoleErrorSpy.mockRestore();
+  });
+
+  it('should immediately update the value if the delay is set to 0', () => {
+    const { getByRole } = render(<TestComponent initialValue={first} delay={0} />);
+
+    act(() => vi.advanceTimersByTime(0));
+
+    const output = getByRole('status');
+
+    expect(output).toHaveTextContent(first);
   });
 });
