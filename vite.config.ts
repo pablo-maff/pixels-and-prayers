@@ -28,6 +28,7 @@ export default defineConfig({
           name: 'unit',
           globals: true,
           environment: 'jsdom',
+          setupFiles: ['src/setupTests.ts'],
           include: ['**/*.test.{ts,tsx}'],
           coverage: {
             exclude: [...coverageConfigDefaults.exclude]
