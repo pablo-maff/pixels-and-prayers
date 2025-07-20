@@ -106,5 +106,19 @@ describe('SearchInput', () => {
     expect(screen.getByRole('button')).toBeDisabled();
   });
 
-  // it('should not return a result if the input is white space');
+  it('should not return a result if the input is white space', async () => {
+    const items = [userInput];
+
+    const handleMatch = vi.fn();
+
+    render(<SearchInput items={items} onMatch={handleMatch} />);
+
+    const input = screen.getByRole('textbox', { name: 'search' });
+
+    await user.type(input, '   ');
+
+    await user.click(screen.getByRole('button'));
+
+    expect(handleMatch).toHaveBeenCalledWith([]);
+  });
 });
