@@ -13,6 +13,7 @@ import userEvent from '@testing-library/user-event';
 // - Can't exceed upper limit
 // - Can't exceed lower limit
 // - + button is disabled if trying to exceed upper limit
+// - + button is disabled if upper limit is 0
 // - - button is disabled if trying to exceed lower limit
 // - Reset button to go back to the first count state
 
@@ -61,5 +62,11 @@ describe('Counter', () => {
     const counterStatus = await screen.findByRole('status', { name: 'counter' });
 
     expect(counterStatus).toHaveTextContent('10');
+  });
+
+  it('+ button is disabled if upper limit is 0 and value is 0', () => {
+    render(<Counter upperLimit={0} />);
+
+    expect(screen.getByRole('button', { name: 'increment' })).toHaveAttribute('disabled');
   });
 });
