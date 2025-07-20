@@ -26,13 +26,10 @@ Here are **hands-on exercises** focused on exploring edge cases and real-world u
 
 ## 🔁 2. Debounced Input Component
 
-- The component renders a text input where the user can type a query
-- When the user stops typing, a "search" action is triggered after a short delay
-- If the user types again before the delay is over, the previous "search" is cancelled
-- The search action receives the latest input value
-- The search is not triggered on every keystroke, only after the delay
-- No search is triggered on mount
-- All timers and effects are properly cleaned up when the component unmounts
+// 1. The search input should allow a user to input text
+// 2. If the entered value matches an item from a list, it should return that item
+// 3. Matching is case-insensitive and ignores surrounding whitespace
+// 4. If no match is found, no result is returned or displayed
 
 ---
 

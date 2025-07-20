@@ -2,18 +2,15 @@
 
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { SearchInput } from './SearchInput';
 
 // **Build:** A `<SearchInput />`
 // **Requirements:**
-// - The component renders a text input where the user can type a query
-// - When the user stops typing, a "search" action is triggered after a short delay
-// - If the user types again before the delay is over, the previous "search" is cancelled
-// - The search action receives the latest input value
-// - The search is not triggered on every keystroke, only after the delay
-// - No search is triggered on mount
-// - All timers and effects are properly cleaned up when the component unmounts
+// 1. The search input should allow a user to input text
+// 2. If the entered value exactly matches an item in the list, that item is made available externally
+// 3. Matching is case-insensitive and ignores surrounding whitespace
+// 4. If no match is found, no result is returned or displayed
 
 describe('SearchInput', () => {
   let user: ReturnType<typeof userEvent.setup>;
@@ -31,8 +28,19 @@ describe('SearchInput', () => {
 
     await user.type(input, userInput);
 
-    screen.debug();
-
     expect(input).toHaveValue(userInput);
+  });
+
+  it('should return an item that matches the user input', async () => {
+    const items = [userInput, 'not what the user wants'];
+    const handleMatch = vi.fn();
+
+    render(<SearchInput items={items} onMatch={handleMatch} />);
+
+    const input = screen.getByRole('textbox', { name: 'search' });
+
+    await user.type(input, userInput);
+
+    expect(handleMatch).toHaveBeenCalledWith(userInput);
   });
 });
