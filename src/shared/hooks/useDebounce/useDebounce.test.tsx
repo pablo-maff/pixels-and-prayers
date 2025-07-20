@@ -112,4 +112,24 @@ describe('useDebounce', () => {
     // * 500 ms since last user interaction
     expect(output).toHaveTextContent(second);
   });
+
+  it('Should cancel pending updates on unmount', () => {
+    const { unmount, queryByRole } = render(<TestComponent initialValue={first} />);
+
+    act(() => vi.advanceTimersByTime(300));
+
+    unmount();
+
+    act(() => vi.advanceTimersByTime(300));
+
+    // * component is unmounted so there is no DOM
+    expect(queryByRole('status')).toBeNull();
+
+    // * Make sure that a possible state update is not leaking to the console
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    expect(consoleErrorSpy).not.toHaveBeenCalled();
+
+    consoleErrorSpy.mockRestore();
+  });
 });
