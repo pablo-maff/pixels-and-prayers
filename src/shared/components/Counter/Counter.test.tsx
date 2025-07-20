@@ -69,4 +69,16 @@ describe('Counter', () => {
 
     expect(screen.getByRole('button', { name: 'increment' })).toHaveAttribute('disabled');
   });
+
+  it('Can not exceed lower limit', async () => {
+    render(<Counter lowerLimit={0} />);
+
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole('button', { name: 'decrement' }));
+
+    const counterStatus = await screen.findByRole('status', { name: 'counter' });
+
+    expect(counterStatus).toHaveTextContent('0');
+  });
 });
