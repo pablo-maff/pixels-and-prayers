@@ -33,7 +33,11 @@ export function Counter({ initialValue = 0, upperLimit, lowerLimit }: CounterPro
         </Button>
       </div>
       <div>
-        <Button aria-label="reset" onClick={() => setCount(initialValueRef.current)}>
+        <Button
+          aria-label="reset"
+          onClick={() => setCount(initialValueRef.current)}
+          disabled={Boolean(initialValue === initialValueRef.current)}
+        >
           <span>Reset</span>
         </Button>
       </div>
