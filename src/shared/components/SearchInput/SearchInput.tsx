@@ -10,14 +10,14 @@ export function SearchInput({ items, onMatch }: SearchInputProps) {
   const [searchValue, setSearchValue] = useState('');
 
   function handleOnMatch() {
-    const match = items.filter((item) =>
-      item.toLowerCase().includes(searchValue.trim().toLowerCase()),
-    );
+    const sanitizedSearchValue = searchValue.trim().toLowerCase();
 
-    if (!match.length) {
+    if (!sanitizedSearchValue) {
       onMatch([]);
       return;
     }
+
+    const match = items.filter((item) => item.toLowerCase().includes(sanitizedSearchValue));
 
     onMatch(match);
   }
