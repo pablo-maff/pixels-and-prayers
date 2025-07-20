@@ -144,7 +144,7 @@ describe('useDebounce', () => {
   });
 
   it('should update the debounced value when the input changes, even if it is the same as before', async () => {
-    const { getByRole } = render(<TestComponent initialValue={first} delay={0} />);
+    const { getByRole } = render(<TestComponent initialValue={first} />);
 
     const input = getByRole('textbox');
     const output = getByRole('status');
