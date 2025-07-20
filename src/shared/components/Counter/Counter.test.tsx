@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { Counter } from './Counter';
 import userEvent from '@testing-library/user-event';
 
@@ -21,6 +21,12 @@ import userEvent from '@testing-library/user-event';
 // - Decrement counter just before hitting the lower limit
 
 describe('Counter', () => {
+  let user: ReturnType<typeof userEvent.setup>;
+
+  beforeEach(() => {
+    user = userEvent.setup();
+  });
+
   it('has a default value of 0', () => {
     render(<Counter />);
     expect(screen.getByRole('status', { name: 'counter' })).toHaveTextContent('0');
@@ -34,8 +40,6 @@ describe('Counter', () => {
   it('increases its value by 1 when "+" button is pressed', async () => {
     render(<Counter />);
 
-    const user = userEvent.setup();
-
     await user.click(screen.getByRole('button', { name: 'increment' }));
 
     const counterStatus = await screen.findByRole('status', { name: 'counter' });
@@ -46,8 +50,6 @@ describe('Counter', () => {
   it('decreases its value by 1 when "-" button is pressed', async () => {
     render(<Counter />);
 
-    const user = userEvent.setup();
-
     await user.click(screen.getByRole('button', { name: 'decrement' }));
 
     const counterStatus = await screen.findByRole('status', { name: 'counter' });
@@ -57,8 +59,6 @@ describe('Counter', () => {
 
   it('Can not exceed upper limit', async () => {
     render(<Counter initialValue={10} upperLimit={10} />);
-
-    const user = userEvent.setup();
 
     await user.click(screen.getByRole('button', { name: 'increment' }));
 
@@ -76,8 +76,6 @@ describe('Counter', () => {
   it('Can not exceed lower limit', async () => {
     render(<Counter initialValue={-10} lowerLimit={-10} />);
 
-    const user = userEvent.setup();
-
     await user.click(screen.getByRole('button', { name: 'decrement' }));
 
     const counterStatus = await screen.findByRole('status', { name: 'counter' });
@@ -93,8 +91,6 @@ describe('Counter', () => {
 
   it('reset button resets the state to its original value when pressed', async () => {
     render(<Counter />);
-
-    const user = userEvent.setup();
 
     await user.click(screen.getByRole('button', { name: 'increment' }));
     await user.click(screen.getByRole('button', { name: 'reset' }));
@@ -113,8 +109,6 @@ describe('Counter', () => {
   it('Increment counter just before hitting the upper limit', async () => {
     render(<Counter initialValue={9} upperLimit={10} />);
 
-    const user = userEvent.setup();
-
     await user.click(screen.getByRole('button', { name: 'increment' }));
 
     const counterStatus = await screen.findByRole('status', { name: 'counter' });
@@ -124,8 +118,6 @@ describe('Counter', () => {
 
   it('Decrement counter just before hitting the lower limit', async () => {
     render(<Counter initialValue={1} lowerLimit={0} />);
-
-    const user = userEvent.setup();
 
     await user.click(screen.getByRole('button', { name: 'decrement' }));
 
