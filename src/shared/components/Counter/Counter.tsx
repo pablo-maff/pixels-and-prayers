@@ -20,7 +20,7 @@ export function Counter({ initialValue = 0, upperLimit, lowerLimit }: CounterPro
         <Button
           aria-label="increment"
           onClick={() => setCount((prevCount) => prevCount + 1)}
-          disabled={Boolean(upperLimit === 0 || upperLimit)}
+          disabled={Boolean(count === upperLimit)}
         >
           <span>+</span>
         </Button>
