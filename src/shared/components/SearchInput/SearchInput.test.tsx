@@ -13,7 +13,7 @@ import { SearchInput } from './SearchInput';
 // 4. If no match is found, no result is returned
 // 5. If the entered value is a substring of one or more items in the list, all matching items should be returned
 // 6. If the entered value is empty or only whitespace, no result should be returned
-
+// should have the search button disabled if there is no input
 describe('SearchInput', () => {
   let user: ReturnType<typeof userEvent.setup>;
 
@@ -107,5 +107,16 @@ describe('SearchInput', () => {
 
     expect(handleMatch).toHaveBeenCalledWith([]);
   });
+
+  it('should have the search button disabled if there is no input', () => {
+    const items = [userInput];
+
+    const handleMatch = vi.fn();
+
+    render(<SearchInput items={items} onMatch={handleMatch} />);
+
+    expect(screen.getByRole('button')).toBeDisabled();
+  });
+
   // it('should not return a result if the input is white space');
 });
