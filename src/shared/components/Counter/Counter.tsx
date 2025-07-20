@@ -1,7 +1,12 @@
 import { Button } from '@components/Button/Button';
 import { useState } from 'react';
 
-export function Counter({ initialValue = 0 }) {
+interface CounterProps {
+  initialValue?: number;
+  upperLimit?: number;
+}
+
+export function Counter({ initialValue = 0, upperLimit }: CounterProps) {
   const [count, setCount] = useState(initialValue);
 
   return (
@@ -10,7 +15,11 @@ export function Counter({ initialValue = 0 }) {
         <span>{count}</span>
       </div>
       <div>
-        <Button onClick={() => setCount((prevCount) => prevCount + 1)} aria-label="increment">
+        <Button
+          aria-label="increment"
+          onClick={() => setCount((prevCount) => prevCount + 1)}
+          disabled={Boolean(upperLimit)}
+        >
           <span>+</span>
         </Button>
         <Button onClick={() => setCount((prevCount) => prevCount - 1)} aria-label="decrement">

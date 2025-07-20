@@ -12,8 +12,8 @@ import userEvent from '@testing-library/user-event';
 // - Can decrease its value by 1 when - button is pressed
 // - Can't exceed upper limit
 // - Can't exceed lower limit
-// - Display message if trying to exceed upper limit
-// - Display message if trying to exceed lower limit
+// - + button is disabled if trying to exceed upper limit
+// - - button is disabled if trying to exceed lower limit
 // - Reset button to go back to the first count state
 
 describe('Counter', () => {
