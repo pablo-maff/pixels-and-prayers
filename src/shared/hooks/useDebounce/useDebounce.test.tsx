@@ -1,5 +1,6 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+import { useDebounce } from './useDebounce';
 
 /*
  * useDebounce requirements:
@@ -22,13 +23,15 @@ function TestComponent({ value }: { value: string }) {
 
 describe('useDebounce', () => {
   it('should return a value after a default delay of 500ms', async () => {
-    render(<TestComponent value="first" />);
+    const { getByRole } = render(<TestComponent value="first" />);
 
-    const output = screen.getByTestId('output');
+    const output = getByRole('status');
 
     expect(output).toHaveTextContent('');
 
-    vi.advanceTimersByTime(500);
+    act(() => {
+      vi.advanceTimersByTime(500);
+    });
 
     expect(output).toHaveTextContent('first');
   });
