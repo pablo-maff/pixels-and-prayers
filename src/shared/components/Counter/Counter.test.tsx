@@ -81,4 +81,10 @@ describe('Counter', () => {
 
     expect(counterStatus).toHaveTextContent('0');
   });
+
+  it('- button is disabled if lower limit is 0 and value is 0', () => {
+    render(<Counter lowerLimit={0} />);
+
+    expect(screen.getByRole('button', { name: 'decrement' })).toHaveAttribute('disabled');
+  });
 });
