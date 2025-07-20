@@ -26,11 +26,13 @@ Here are **hands-on exercises** focused on exploring edge cases and real-world u
 
 ## 🔁 2. Debounced Input Component
 
-**Build:** A `<SearchInput />`  
-**Requirements:**
-- Uses `useState` to store input value
-- Uses `useEffect` to trigger a "search" console.log after 500ms of inactivity
-- Cleanup the timer on unmount
+- The component renders a text input where the user can type a query
+- When the user stops typing, a "search" action is triggered after a short delay
+- If the user types again before the delay is over, the previous "search" is cancelled
+- The search action receives the latest input value
+- The search is not triggered on every keystroke, only after the delay
+- No search is triggered on mount
+- All timers and effects are properly cleaned up when the component unmounts
 
 ---
 
