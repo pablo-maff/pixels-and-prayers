@@ -13,7 +13,7 @@ export function SearchInput({ items, onMatch }: SearchInputProps) {
     const match = items.filter((item) => item.toLowerCase() === searchValue.trim().toLowerCase());
 
     if (!match.length) {
-      onMatch(['No results found']);
+      onMatch([]);
       return;
     }
 

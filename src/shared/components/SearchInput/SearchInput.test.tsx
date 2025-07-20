@@ -10,7 +10,7 @@ import { SearchInput } from './SearchInput';
 // 1. The search input should allow a user to input text
 // 2. If the entered value exactly matches an item in the list, that item is made available externally
 // 3. Matching is case-insensitive and ignores surrounding whitespace
-// 4. If no match is found, no result is returned or displayed
+// 4. If no match is found, no result is returned
 
 describe('SearchInput', () => {
   let user: ReturnType<typeof userEvent.setup>;
@@ -60,5 +60,21 @@ describe('SearchInput', () => {
     await user.click(screen.getByRole('button'));
 
     expect(handleMatch).toHaveBeenCalledWith([userInput]);
+  });
+
+  it('should not return a result if no match is found', async () => {
+    const items = [userInput];
+
+    const handleMatch = vi.fn();
+
+    render(<SearchInput items={items} onMatch={handleMatch} />);
+
+    const input = screen.getByRole('textbox', { name: 'search' });
+
+    await user.type(input, 'not an item');
+
+    await user.click(screen.getByRole('button'));
+
+    expect(handleMatch).toHaveBeenCalledWith([]);
   });
 });
