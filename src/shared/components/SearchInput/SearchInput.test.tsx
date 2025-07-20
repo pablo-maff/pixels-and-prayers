@@ -11,6 +11,7 @@ import { SearchInput } from './SearchInput';
 // 2. If the entered value exactly matches an item in the list, that item is made available externally
 // 3. Matching is case-insensitive and ignores surrounding whitespace
 // 4. If no match is found, no result is returned
+// 5. If the entered value is a substring of one or more items in the list, all matching items should be returned
 
 describe('SearchInput', () => {
   let user: ReturnType<typeof userEvent.setup>;
@@ -76,5 +77,22 @@ describe('SearchInput', () => {
     await user.click(screen.getByRole('button'));
 
     expect(handleMatch).toHaveBeenCalledWith([]);
+  });
+
+  // If the entered value is a substring of one or more items in the list, all matching items should be returned
+  it('should return all matching items for a given substring', async () => {
+    const items = ['Pogačar', 'Roglič', 'Evenepoel'];
+
+    const handleMatch = vi.fn();
+
+    render(<SearchInput items={items} onMatch={handleMatch} />);
+
+    const input = screen.getByRole('textbox', { name: 'search' });
+
+    await user.type(input, 'g');
+
+    await user.click(screen.getByRole('button'));
+
+    expect(handleMatch).toHaveBeenCalledWith([items[0], items[1]]);
   });
 });
