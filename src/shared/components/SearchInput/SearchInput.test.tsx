@@ -79,7 +79,6 @@ describe('SearchInput', () => {
     expect(handleMatch).toHaveBeenCalledWith([]);
   });
 
-  // If the entered value is a substring of one or more items in the list, all matching items should be returned
   it('should return all matching items for a given substring', async () => {
     const items = ['Pogačar', 'Roglič', 'Evenepoel'];
 
