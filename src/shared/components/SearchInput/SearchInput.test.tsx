@@ -12,6 +12,7 @@ import { SearchInput } from './SearchInput';
 // 3. Matching is case-insensitive and ignores surrounding whitespace
 // 4. If no match is found, no result is returned
 // 5. If the entered value is a substring of one or more items in the list, all matching items should be returned
+// 6. If the entered value is empty or only whitespace, no result should be returned
 
 describe('SearchInput', () => {
   let user: ReturnType<typeof userEvent.setup>;
@@ -94,4 +95,17 @@ describe('SearchInput', () => {
 
     expect(handleMatch).toHaveBeenCalledWith([items[0], items[1]]);
   });
+
+  it('should not return a result if the input is empty', async () => {
+    const items = [userInput];
+
+    const handleMatch = vi.fn();
+
+    render(<SearchInput items={items} onMatch={handleMatch} />);
+
+    await user.click(screen.getByRole('button'));
+
+    expect(handleMatch).toHaveBeenCalledWith([]);
+  });
+  // it('should not return a result if the input is white space');
 });
