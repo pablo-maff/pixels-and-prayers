@@ -15,4 +15,11 @@ describe('Counter', () => {
     render(<Counter />);
     expect(screen.getByRole('status', { name: 'counter' })).toHaveTextContent('0');
   });
+
+  it('increases its value by 1 when "+" button is pressed', () => {
+    render(<Counter />);
+    screen.getByRole('button', { name: 'increment' }).click();
+
+    expect(screen.getByRole('status', { name: 'counter' })).toHaveTextContent('1');
+  });
 });
