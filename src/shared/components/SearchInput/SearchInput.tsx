@@ -36,7 +36,7 @@ export function SearchInput({ items, onMatch }: SearchInputProps) {
         onChange={(e) => setSearchValue(e.target.value)}
       />
       ;
-      <Button onClick={handleOnMatch}>
+      <Button disabled={!searchValue} onClick={handleOnMatch}>
         <span>Search</span>
       </Button>
     </div>
