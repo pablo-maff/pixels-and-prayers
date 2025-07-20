@@ -3,6 +3,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it } from 'vitest';
+import { SearchInput } from './SearchInput';
 
 // **Build:** A `<SearchInput />`
 // **Requirements:**
@@ -30,6 +31,8 @@ describe('SearchInput', () => {
 
     await user.type(input, userInput);
 
-    expect(input).toHaveTextContent(userInput);
+    screen.debug();
+
+    expect(input).toHaveValue(userInput);
   });
 });
