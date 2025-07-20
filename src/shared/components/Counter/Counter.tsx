@@ -13,9 +13,7 @@ export function Counter({ initialValue = 0, upperLimit, lowerLimit }: CounterPro
 
   return (
     <div>
-      <div role="status" aria-label="counter">
-        <span>{count}</span>
-      </div>
+      <output aria-label="counter">{count}</output>
       <div>
         <Button
           aria-label="increment"
