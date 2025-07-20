@@ -6,15 +6,24 @@ import userEvent from '@testing-library/user-event';
 
 // **Build:** A `<Counter />` component
 // **Requirements:**
-// - Increment and decrement buttons
-// - Cannot go below 0 or above 10
-// - Reset button to set value to 5
+// - Default value is 0
+// - Can set a custom initial value
+// - Can increase its value by 1 when + button is pressed
+// - Can decrease its value by 1 when - button is pressed
+// - Can set upper limit
+// - Can set lower limit
 // - Display message if trying to exceed limits
+// - Reset button to go back to the first count state
 
 describe('Counter', () => {
   it('has a default value of 0', () => {
     render(<Counter />);
     expect(screen.getByRole('status', { name: 'counter' })).toHaveTextContent('0');
+  });
+
+  it('can set a custom initial value', () => {
+    render(<Counter initialValue={10} />);
+    expect(screen.getByRole('status', { name: 'counter' })).toHaveTextContent('10');
   });
 
   it('increases its value by 1 when "+" button is pressed', async () => {
