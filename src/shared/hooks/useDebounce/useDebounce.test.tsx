@@ -15,8 +15,8 @@ import { useDebounce } from './useDebounce';
 
 vi.useFakeTimers();
 
-function TestComponent({ value }: { value: string }) {
-  const debounced = useDebounce(value);
+function TestComponent({ value, delay }: { value: string; delay?: number }) {
+  const debounced = useDebounce(value, delay);
 
   return <output>{debounced}</output>;
 }
@@ -40,7 +40,7 @@ describe('useDebounce', () => {
   });
 
   it('should return a value after a custom delay of 100ms', async () => {
-    const { getByRole } = render(<TestComponent value={first} debounce={100} />);
+    const { getByRole } = render(<TestComponent value={first} delay={100} />);
 
     const output = getByRole('status');
 
