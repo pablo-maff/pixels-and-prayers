@@ -1,5 +1,5 @@
 import { Button } from '@components/Button/Button';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 interface CounterProps {
   initialValue?: number;
@@ -9,6 +9,7 @@ interface CounterProps {
 
 export function Counter({ initialValue = 0, upperLimit, lowerLimit }: CounterProps) {
   const [count, setCount] = useState(initialValue);
+  const initialValueRef = useRef(initialValue);
 
   return (
     <div>
@@ -29,6 +30,11 @@ export function Counter({ initialValue = 0, upperLimit, lowerLimit }: CounterPro
           disabled={Boolean(lowerLimit === 0 || lowerLimit)}
         >
           <span>-</span>
+        </Button>
+      </div>
+      <div>
+        <Button aria-label="reset" onClick={() => setCount(initialValueRef.current)}>
+          <span>Reset</span>
         </Button>
       </div>
     </div>
