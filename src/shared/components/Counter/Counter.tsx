@@ -18,7 +18,7 @@ export function Counter({ initialValue = 0, upperLimit }: CounterProps) {
         <Button
           aria-label="increment"
           onClick={() => setCount((prevCount) => prevCount + 1)}
-          disabled={Boolean(upperLimit)}
+          disabled={Boolean(upperLimit === 0 || upperLimit)}
         >
           <span>+</span>
         </Button>
