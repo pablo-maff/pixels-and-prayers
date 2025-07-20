@@ -16,6 +16,7 @@ import userEvent from '@testing-library/user-event';
 // - + button is disabled if upper limit is 0
 // - - button is disabled if trying to exceed lower limit
 // - Reset button to go back to the first count state
+// - Reset button is disabled if value is equal to initial value
 
 describe('Counter', () => {
   it('has a default value of 0', () => {
@@ -99,5 +100,11 @@ describe('Counter', () => {
     const counterStatus = await screen.findByRole('status', { name: 'counter' });
 
     expect(counterStatus).toHaveTextContent('0');
+  });
+
+  it('Reset button is disabled if value is equal to initial value', () => {
+    render(<Counter />);
+
+    expect(screen.getByRole('button', { name: 'reset' })).toHaveAttribute('disabled');
   });
 });
