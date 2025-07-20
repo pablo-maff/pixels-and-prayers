@@ -10,9 +10,10 @@ import userEvent from '@testing-library/user-event';
 // - Can set a custom initial value
 // - Can increase its value by 1 when + button is pressed
 // - Can decrease its value by 1 when - button is pressed
-// - Can set upper limit
-// - Can set lower limit
-// - Display message if trying to exceed limits
+// - Can't exceed upper limit
+// - Can't exceed lower limit
+// - Display message if trying to exceed upper limit
+// - Display message if trying to exceed lower limit
 // - Reset button to go back to the first count state
 
 describe('Counter', () => {
@@ -48,5 +49,17 @@ describe('Counter', () => {
     const counterStatus = await screen.findByRole('status', { name: 'counter' });
 
     expect(counterStatus).toHaveTextContent('-1');
+  });
+
+  it('Can not exceed upper limit', async () => {
+    render(<Counter initialValue={10} upperLimit={10} />);
+
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole('button', { name: 'increment' }));
+
+    const counterStatus = await screen.findByRole('status', { name: 'counter' });
+
+    expect(counterStatus).toHaveTextContent('10');
   });
 });
