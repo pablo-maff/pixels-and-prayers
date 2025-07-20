@@ -2,6 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { Counter } from './Counter';
+import userEvent from '@testing-library/user-event';
 
 // **Build:** A `<Counter />` component
 // **Requirements:**
@@ -16,10 +17,15 @@ describe('Counter', () => {
     expect(screen.getByRole('status', { name: 'counter' })).toHaveTextContent('0');
   });
 
-  it('increases its value by 1 when "+" button is pressed', () => {
+  it('increases its value by 1 when "+" button is pressed', async () => {
     render(<Counter />);
-    screen.getByRole('button', { name: 'increment' }).click();
 
-    expect(screen.getByRole('status', { name: 'counter' })).toHaveTextContent('1');
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole('button', { name: 'increment' }));
+
+    const counterStatus = await screen.findByRole('status', { name: 'counter' });
+
+    expect(counterStatus).toHaveTextContent('1');
   });
 });

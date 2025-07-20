@@ -23,14 +23,15 @@ export default defineConfig({
     projects: [
       // ✅ Unit tests config
       defineConfig({
+        plugins: [tsconfigPaths()],
         test: {
           name: 'unit',
           globals: true,
           environment: 'jsdom',
           include: ['**/*.test.{ts,tsx}'],
-    coverage: {
-      exclude: [...coverageConfigDefaults.exclude]
-    },
+          coverage: {
+            exclude: [...coverageConfigDefaults.exclude]
+          },
         },
       }),
 
