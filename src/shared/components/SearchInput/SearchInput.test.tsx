@@ -22,7 +22,7 @@ describe('SearchInput', () => {
   });
 
   it('should allow a user to input text', async () => {
-    render(<SearchInput />);
+    render(<SearchInput items={[]} onMatch={() => {}} />);
 
     const input = screen.getByRole('textbox', { name: 'search' });
 
@@ -41,6 +41,8 @@ describe('SearchInput', () => {
 
     await user.type(input, userInput);
 
-    expect(handleMatch).toHaveBeenCalledWith(userInput);
+    await user.click(screen.getByRole('button'));
+
+    expect(handleMatch).toHaveBeenCalledWith([userInput]);
   });
 });
