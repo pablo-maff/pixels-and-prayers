@@ -15,7 +15,13 @@ import userEvent from '@testing-library/user-event';
  * 7. Should be generic and work with any type, not just strings
  */
 
-function TestComponent({ initialValue = '', delay }: { initialValue: string; delay?: number }) {
+function TestComponent({
+  initialValue = '',
+  delay,
+}: {
+  initialValue: string | number;
+  delay?: number;
+}) {
   const [value, setValue] = useState(initialValue);
   const debounced = useDebounce(value, delay);
 
@@ -160,5 +166,17 @@ describe('useDebounce', () => {
     act(() => vi.advanceTimersByTime(200));
 
     expect(output).toHaveTextContent(first);
+  });
+
+  it('Should be generic and work with any type, not just strings', () => {
+    const { getByRole } = render(<TestComponent initialValue={15} />);
+
+    const output = getByRole('status');
+
+    expect(output).toHaveTextContent('');
+
+    act(() => vi.advanceTimersByTime(500));
+
+    expect(output).toHaveTextContent('15');
   });
 });
