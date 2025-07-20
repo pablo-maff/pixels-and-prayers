@@ -21,9 +21,12 @@ function TestComponent({ value }: { value: string }) {
   return <output>{debounced}</output>;
 }
 
+// * helpers
+const first = 'first';
+
 describe('useDebounce', () => {
   it('should return a value after a default delay of 500ms', async () => {
-    const { getByRole } = render(<TestComponent value="first" />);
+    const { getByRole } = render(<TestComponent value={first} />);
 
     const output = getByRole('status');
 
@@ -33,6 +36,18 @@ describe('useDebounce', () => {
       vi.advanceTimersByTime(500);
     });
 
-    expect(output).toHaveTextContent('first');
+    expect(output).toHaveTextContent(first);
+  });
+
+  it('should return a value after a custom delay of 100ms', async () => {
+    const { getByRole } = render(<TestComponent value={first} debounce={100} />);
+
+    const output = getByRole('status');
+
+    expect(output).toHaveTextContent('');
+
+    act(() => vi.advanceTimersByTime(100));
+
+    expect(output).toHaveTextContent(first);
   });
 });
