@@ -121,4 +121,16 @@ describe('Counter', () => {
 
     expect(counterStatus).toHaveTextContent('10');
   });
+
+  it('Decrement counter just before hitting the lower limit', async () => {
+    render(<Counter initialValue={1} lowerLimit={0} />);
+
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole('button', { name: 'decrement' }));
+
+    const counterStatus = await screen.findByRole('status', { name: 'counter' });
+
+    expect(counterStatus).toHaveTextContent('0');
+  });
 });
