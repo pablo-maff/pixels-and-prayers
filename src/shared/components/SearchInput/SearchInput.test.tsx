@@ -41,11 +41,10 @@ describe('SearchInput', () => {
     expect(input).toHaveValue(userInput);
   });
 
-  it('should return an item when the input matches an item', async () => {
-    const items = [userInput, 'not what the user wants'];
+  it('should return the searchValue', async () => {
     const handleSearch = vi.fn();
 
-    render(<SearchInput items={items} onSearch={handleSearch} />);
+    render(<SearchInput onSearch={handleSearch} />);
 
     const input = screen.getByRole('textbox', { name: 'search' });
 
@@ -53,7 +52,7 @@ describe('SearchInput', () => {
 
     await user.click(screen.getByRole('button'));
 
-    expect(handleSearch).toHaveBeenCalledWith(items, userInput);
+    expect(handleSearch).toHaveBeenCalledWith(userInput);
     expect(handleSearch).toHaveBeenCalledOnce();
   });
 
