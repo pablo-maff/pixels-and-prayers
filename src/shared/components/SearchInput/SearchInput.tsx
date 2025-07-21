@@ -2,32 +2,36 @@ import { Button } from '@components/Button/Button';
 import { useCallback, useEffect, useState } from 'react';
 import { useDebounce } from 'shared/hooks/useDebounce/useDebounce';
 
-interface SearchInputProps {
-  items: string[];
-  onMatch: (results: string[]) => void;
+interface SearchInputProps<T> {
+  items: T[];
+  onSearch: (items: T[], searchValue: string) => T[];
   debounce?: boolean;
 }
 
-function filterItems(items: string[], searchValue: string) {
-  const sanitizedSearchValue = searchValue.trim().toLowerCase();
+// function defaultSearch<T>(items: T[], searchValue: string) {
+//   if (!items.every((item) => typeof item === 'string')) {
+//     throw new Error('All items must be a string');
+//   }
 
-  if (!sanitizedSearchValue) {
-    return [];
-  }
+//   const sanitizedSearchValue = searchValue.trim().toLowerCase();
 
-  const match = items.filter((item) => item.toLowerCase().includes(sanitizedSearchValue));
+//   if (!sanitizedSearchValue) {
+//     return [];
+//   }
 
-  return match;
-}
+//   const match = items.filter((item) => item.toLowerCase().includes(sanitizedSearchValue));
 
-export function SearchInput({ items, onMatch, debounce }: SearchInputProps) {
+//   return match;
+// }
+
+export function SearchInput<T>({ items, onSearch, debounce }: SearchInputProps<T>) {
   const [searchValue, setSearchValue] = useState('');
 
   const debouncedValue = useDebounce(searchValue);
 
   const handleOnMatch = useCallback(
-    () => onMatch(filterItems(items, searchValue)),
-    [items, onMatch, searchValue],
+    () => onSearch(items, searchValue),
+    [items, onSearch, searchValue],
   );
 
   useEffect(() => {

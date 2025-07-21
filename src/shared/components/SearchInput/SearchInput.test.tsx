@@ -8,10 +8,11 @@ import { SearchInput } from './SearchInput';
 // **Build:** A `<SearchInput />`
 // **Requirements:**
 // 1. allows a user to enter search text
-// 2. returns an exact match when the input matches an item
-// 3. ignores case differences and trims surrounding spaces
-// 4. returns all items containing the search substring
-// 5. returns no results for empty or whitespace-only input
+// 2. returns items and searchValue
+// should not return a result if no match is found -> MOVE
+// 3. ignores case differences and trims surrounding spaces -> MOVE
+// 4. returns all items containing the search substring => MOVE
+// 5. returns no results for empty or whitespace-only input => MOVE
 // 6. disables the search button when there is no input
 // 7. accepts arbitrary item types and returns them via the search function
 // 8. triggers a search callback after typing stops (debounced)
@@ -29,7 +30,9 @@ describe('SearchInput', () => {
   });
 
   it('should allow a user to input text', async () => {
-    render(<SearchInput items={[]} onMatch={() => {}} />);
+    const handleSearch = vi.fn();
+
+    render(<SearchInput items={[]} onSearch={handleSearch} />);
 
     const input = screen.getByRole('textbox', { name: 'search' });
 
@@ -38,11 +41,11 @@ describe('SearchInput', () => {
     expect(input).toHaveValue(userInput);
   });
 
-  it('should return an item that matches the user input', async () => {
+  it('should return an item when the input matches an item', async () => {
     const items = [userInput, 'not what the user wants'];
-    const handleMatch = vi.fn();
+    const handleSearch = vi.fn();
 
-    render(<SearchInput items={items} onMatch={handleMatch} />);
+    render(<SearchInput items={items} onSearch={handleSearch} />);
 
     const input = screen.getByRole('textbox', { name: 'search' });
 
@@ -50,79 +53,16 @@ describe('SearchInput', () => {
 
     await user.click(screen.getByRole('button'));
 
-    expect(handleMatch).toHaveBeenCalledWith([userInput]);
-  });
-
-  it('should return an item that matches the user input even if casing is different and there is surrounding whitespace', async () => {
-    const items = [userInput, 'not what the user wants'];
-
-    const handleMatch = vi.fn();
-
-    render(<SearchInput items={items} onMatch={handleMatch} />);
-
-    const input = screen.getByRole('textbox', { name: 'search' });
-
-    await user.type(input, ' tadej pogačar is the ultimAte pEdaling sardine ');
-
-    await user.click(screen.getByRole('button'));
-
-    expect(handleMatch).toHaveBeenCalledWith([userInput]);
-  });
-
-  it('should not return a result if no match is found', async () => {
-    const items = [userInput];
-
-    const handleMatch = vi.fn();
-
-    render(<SearchInput items={items} onMatch={handleMatch} />);
-
-    const input = screen.getByRole('textbox', { name: 'search' });
-
-    await user.type(input, 'not an item');
-
-    await user.click(screen.getByRole('button'));
-
-    expect(handleMatch).toHaveBeenCalledWith([]);
-  });
-
-  it('should return all matching items for a given substring', async () => {
-    const items = ['Pogačar', 'Roglič', 'Evenepoel'];
-
-    const handleMatch = vi.fn();
-
-    render(<SearchInput items={items} onMatch={handleMatch} />);
-
-    const input = screen.getByRole('textbox', { name: 'search' });
-
-    await user.type(input, 'g');
-
-    await user.click(screen.getByRole('button'));
-
-    expect(handleMatch).toHaveBeenCalledWith([items[0], items[1]]);
-  });
-
-  it('should not return a result if the input is white space', async () => {
-    const items = [userInput];
-
-    const handleMatch = vi.fn();
-
-    render(<SearchInput items={items} onMatch={handleMatch} />);
-
-    const input = screen.getByRole('textbox', { name: 'search' });
-
-    await user.type(input, '   ');
-
-    await user.click(screen.getByRole('button'));
-
-    expect(handleMatch).toHaveBeenCalledWith([]);
+    expect(handleSearch).toHaveBeenCalledWith(items, userInput);
+    expect(handleSearch).toHaveBeenCalledOnce();
   });
 
   it('should have the search button disabled if there is no input', () => {
     const items = [userInput];
 
-    const handleMatch = vi.fn();
+    const handleSearch = vi.fn();
 
-    render(<SearchInput items={items} onMatch={handleMatch} />);
+    render(<SearchInput items={items} onSearch={handleSearch} />);
 
     expect(screen.getByRole('button')).toBeDisabled();
   });
@@ -133,16 +73,19 @@ describe('SearchInput', () => {
       { id: 2, value: 'not what the user wants' },
     ];
 
-    const handleMatch = vi.fn();
+    const handleSearch = vi.fn();
 
-    const { getByRole } = render(<SearchInput items={items} onMatch={handleMatch} />);
+    const { getByRole } = render(<SearchInput items={items} onSearch={handleSearch} />);
 
     const input = getByRole('textbox');
+    const search = getByRole('button');
 
     await user.type(input, userInput);
 
-    expect(handleMatch).toHaveBeenCalledWith(items[0]);
-    expect(handleMatch).toHaveBeenCalledOnce();
+    await user.click(search);
+
+    expect(handleSearch).toHaveBeenCalledWith(items, userInput);
+    expect(handleSearch).toHaveBeenCalledOnce();
   });
 
   // * Debounced search tests
@@ -172,12 +115,12 @@ describe('SearchInput', () => {
       vi.unstubAllGlobals();
     });
 
-    it('should trigger a match after typing stops', async () => {
+    it('should return after typing stops and delay time has passed', async () => {
       const items = [userInput];
 
-      const handleMatch = vi.fn();
+      const handleSearch = vi.fn();
 
-      const { getByRole } = render(<SearchInput items={items} onMatch={handleMatch} debounce />);
+      const { getByRole } = render(<SearchInput items={items} onSearch={handleSearch} debounce />);
 
       const input = getByRole('textbox', { name: 'search' });
 
@@ -185,16 +128,16 @@ describe('SearchInput', () => {
 
       act(() => vi.advanceTimersByTime(500));
 
-      expect(handleMatch).toHaveBeenCalledWith([userInput]);
+      expect(handleSearch).toHaveBeenCalledWith(items, 'Tadej');
     });
 
     it('should not trigger a match while typing', async () => {
       const items = [userInput];
 
-      const handleMatch = vi.fn();
+      const handleSearch = vi.fn();
 
       const { getByRole, unmount } = render(
-        <SearchInput items={items} onMatch={handleMatch} debounce />,
+        <SearchInput items={items} onSearch={handleSearch} debounce />,
       );
 
       const input = getByRole('textbox', { name: 'search' });
@@ -209,7 +152,7 @@ describe('SearchInput', () => {
 
       // * By now the default 500ms debounce have already passed
 
-      expect(handleMatch).not.toHaveBeenCalled();
+      expect(handleSearch).not.toHaveBeenCalled();
 
       unmount();
     });
@@ -217,10 +160,10 @@ describe('SearchInput', () => {
     it('should not trigger a match if input is cleared before debounced delay', async () => {
       const items = [userInput];
 
-      const handleMatch = vi.fn();
+      const handleSearch = vi.fn();
 
       const { getByRole, unmount } = render(
-        <SearchInput items={items} onMatch={handleMatch} debounce />,
+        <SearchInput items={items} onSearch={handleSearch} debounce />,
       );
 
       const input = getByRole('textbox', { name: 'search' });
@@ -235,7 +178,7 @@ describe('SearchInput', () => {
 
       // * By now the default 500ms debounce have already passed
 
-      expect(handleMatch).not.toHaveBeenCalled();
+      expect(handleSearch).not.toHaveBeenCalled();
 
       unmount();
     });
@@ -243,10 +186,10 @@ describe('SearchInput', () => {
     it('should hide the search button when debounced mode is enabled', () => {
       const items = [userInput];
 
-      const handleMatch = vi.fn();
+      const handleSearch = vi.fn();
 
       const { queryByRole, unmount } = render(
-        <SearchInput items={items} onMatch={handleMatch} debounce />,
+        <SearchInput items={items} onSearch={handleSearch} debounce />,
       );
 
       const searchButton = queryByRole('button');
@@ -259,9 +202,9 @@ describe('SearchInput', () => {
     it('should not return a value if debounced search is not enabled and button is not clicked', async () => {
       const items = [userInput];
 
-      const handleMatch = vi.fn();
+      const handleSearch = vi.fn();
 
-      render(<SearchInput items={items} onMatch={handleMatch} />);
+      render(<SearchInput items={items} onSearch={handleSearch} />);
 
       const input = screen.getByRole('textbox', { name: 'search' });
 
@@ -269,7 +212,7 @@ describe('SearchInput', () => {
 
       act(() => vi.advanceTimersByTime(500));
 
-      expect(handleMatch).not.toHaveBeenCalled();
+      expect(handleSearch).not.toHaveBeenCalled();
     });
   });
 });
