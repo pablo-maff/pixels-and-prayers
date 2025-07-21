@@ -1,5 +1,5 @@
 import { Button } from '@components/Button/Button';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDebounce } from 'shared/hooks/useDebounce/useDebounce';
 
 interface SearchInputProps {
@@ -25,15 +25,16 @@ export function SearchInput({ items, onMatch, debounce }: SearchInputProps) {
 
   const debouncedValue = useDebounce(searchValue);
 
+  const handleOnMatch = useCallback(
+    () => onMatch(filterItems(items, searchValue)),
+    [items, onMatch, searchValue],
+  );
+
   useEffect(() => {
     if (debounce && debouncedValue) {
-      onMatch(filterItems(items, searchValue));
+      handleOnMatch();
     }
-  }, [searchValue, debouncedValue, debounce, items, onMatch]);
-
-  function handleOnMatch() {
-    onMatch(filterItems(items, searchValue));
-  }
+  }, [debouncedValue, debounce, handleOnMatch]);
 
   return (
     <div>
