@@ -7,13 +7,18 @@ import { SearchInput } from './SearchInput';
 
 // **Build:** A `<SearchInput />`
 // **Requirements:**
-// 1. The search input should allow a user to input text
-// 2. If the entered value exactly matches an item in the list, that item is made available externally
-// 3. Matching is case-insensitive and ignores surrounding whitespace
-// 4. If no match is found, no result is returned
-// 5. If the entered value is a substring of one or more items in the list, all matching items should be returned
-// 6. If the entered value is empty or only whitespace, no result should be returned
-// 7. should have the search button disabled if there is no input
+// 1. allows a user to enter search text
+// 2. returns an exact match when the input matches an item
+// 3. ignores case differences and trims surrounding spaces
+// 4. returns all items containing the search substring
+// 5. returns no results for empty or whitespace-only input
+// 6. disables the search button when there is no input
+// 7. accepts arbitrary item types and returns them via the search function
+// 8. triggers a search callback after typing stops (debounced)
+// 9. does not trigger a search callback while typing continuously (debounced)
+// 10. does not trigger a search callback if input is cleared before debounce delay (debounced)
+// 11. hides the search button when debounce mode is enabled (debounced)
+
 describe('SearchInput', () => {
   let user: ReturnType<typeof userEvent.setup>;
 
@@ -120,6 +125,24 @@ describe('SearchInput', () => {
     render(<SearchInput items={items} onMatch={handleMatch} />);
 
     expect(screen.getByRole('button')).toBeDisabled();
+  });
+
+  it('accepts arbitrary item types and returns them via the search function', async () => {
+    const items = [
+      { id: 1, value: userInput },
+      { id: 2, value: 'not what the user wants' },
+    ];
+
+    const handleMatch = vi.fn();
+
+    const { getByRole } = render(<SearchInput items={items} onMatch={handleMatch} />);
+
+    const input = getByRole('textbox');
+
+    await user.type(input, userInput);
+
+    expect(handleMatch).toHaveBeenCalledWith(items[0]);
+    expect(handleMatch).toHaveBeenCalledOnce();
   });
 
   // * Debounced search tests
