@@ -27,10 +27,16 @@ Here are **hands-on exercises** focused on exploring edge cases and real-world u
 
 ## 🔁 2. Debounced Input Component
 
-// 1. The search input should allow a user to input text
-// 2. If the entered value exactly matches an item in the list, that item is made available externally
-// 3. Matching is case-insensitive and ignores surrounding whitespace
-// 4. If no match is found, no result is returned or displayed
+// 1. allows a user to enter search text
+// 2. returns the search value on button click
+// 3. disables the search button when there is no input
+//
+// Debounced behavior (when debounce enabled):
+// 4. triggers search callback after typing stops and delay time has passed
+// 5. does not trigger search callback while typing continuously
+// 6. does not trigger search callback if input is cleared before debounced delay
+// 7. hides the search button when debounced mode is enabled
+// 8. does not trigger search callback if debounce not enabled and no click
 
 ---
 

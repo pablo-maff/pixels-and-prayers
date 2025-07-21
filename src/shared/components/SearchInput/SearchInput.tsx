@@ -2,9 +2,8 @@ import { Button } from '@components/Button/Button';
 import { useCallback, useEffect, useState } from 'react';
 import { useDebounce } from 'shared/hooks/useDebounce/useDebounce';
 
-interface SearchInputProps<T> {
-  items: T[];
-  onSearch: (items: T[], searchValue: string) => T[];
+interface SearchInputProps {
+  onSearch: (searchValue: string) => string;
   debounce?: boolean;
 }
 
@@ -24,15 +23,12 @@ interface SearchInputProps<T> {
 //   return match;
 // }
 
-export function SearchInput<T>({ items, onSearch, debounce }: SearchInputProps<T>) {
+export function SearchInput({ onSearch, debounce }: SearchInputProps) {
   const [searchValue, setSearchValue] = useState('');
 
   const debouncedValue = useDebounce(searchValue);
 
-  const handleOnMatch = useCallback(
-    () => onSearch(items, searchValue),
-    [items, onSearch, searchValue],
-  );
+  const handleOnMatch = useCallback(() => onSearch(searchValue), [onSearch, searchValue]);
 
   useEffect(() => {
     if (!debounce || !debouncedValue) return;
