@@ -2,24 +2,14 @@
   "compilerOptions": {
     "baseUrl": "src",
     "paths": {
-      "@components/*": [
-        "shared/components/*"
-      ],
-      "@styles/*": [
-        "shared/styles/*"
-      ],
-      "@type-defs/*": [
-        "shared/type-defs/*"
-      ]
+      "@components/*": ["shared/components/*"],
+      "@styles/*": ["shared/styles/*"],
+      "@type-defs/*": ["shared/type-defs/*"]
     },
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2022",
     "useDefineForClassFields": true,
-    "lib": [
-      "ES2022",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
     /* Bundler mode */
@@ -37,7 +27,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }
