@@ -127,7 +127,7 @@ describe('SearchInput', () => {
     expect(screen.getByRole('button')).toBeDisabled();
   });
 
-  it('accepts arbitrary item types and returns them via the search function', async () => {
+  it('accepts arbitrary item types and returns them via the search function when matched', async () => {
     const items = [
       { id: 1, value: userInput },
       { id: 2, value: 'not what the user wants' },
