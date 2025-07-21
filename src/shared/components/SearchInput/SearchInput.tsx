@@ -1,25 +1,38 @@
 import { Button } from '@components/Button/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDebounce } from 'shared/hooks/useDebounce/useDebounce';
 
 interface SearchInputProps {
   items: string[];
   onMatch: (results: string[]) => void;
+  debounce?: boolean;
 }
 
-export function SearchInput({ items, onMatch }: SearchInputProps) {
+function filterItems(items: string[], searchValue: string) {
+  const sanitizedSearchValue = searchValue.trim().toLowerCase();
+
+  if (!sanitizedSearchValue) {
+    return [];
+  }
+
+  const match = items.filter((item) => item.toLowerCase().includes(sanitizedSearchValue));
+
+  return match;
+}
+
+export function SearchInput({ items, onMatch, debounce }: SearchInputProps) {
   const [searchValue, setSearchValue] = useState('');
 
-  function handleOnMatch() {
-    const sanitizedSearchValue = searchValue.trim().toLowerCase();
+  const debouncedValue = useDebounce(searchValue);
 
-    if (!sanitizedSearchValue) {
-      onMatch([]);
-      return;
+  useEffect(() => {
+    if (debounce && debouncedValue) {
+      onMatch(filterItems(items, searchValue));
     }
+  }, [searchValue, debouncedValue, debounce, items, onMatch]);
 
-    const match = items.filter((item) => item.toLowerCase().includes(sanitizedSearchValue));
-
-    onMatch(match);
+  function handleOnMatch() {
+    onMatch(filterItems(items, searchValue));
   }
 
   return (
@@ -30,10 +43,11 @@ export function SearchInput({ items, onMatch }: SearchInputProps) {
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
       />
-      ;
-      <Button disabled={!searchValue} onClick={handleOnMatch}>
-        <span>Search</span>
-      </Button>
+      {debounce ? null : (
+        <Button disabled={!searchValue} onClick={handleOnMatch}>
+          <span>Search</span>
+        </Button>
+      )}
     </div>
   );
 }
