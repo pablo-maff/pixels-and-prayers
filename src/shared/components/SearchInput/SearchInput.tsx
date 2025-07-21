@@ -31,9 +31,9 @@ export function SearchInput({ items, onMatch, debounce }: SearchInputProps) {
   );
 
   useEffect(() => {
-    if (debounce && debouncedValue) {
-      handleOnMatch();
-    }
+    if (!debounce || !debouncedValue) return;
+
+    handleOnMatch();
   }, [debouncedValue, debounce, handleOnMatch]);
 
   return (

@@ -1,10 +1,9 @@
 // ## 🔁 2. Debounced Input Component
 
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { SearchInput } from './SearchInput';
-import { act } from 'react';
 
 // **Build:** A `<SearchInput />`
 // **Requirements:**
@@ -171,7 +170,9 @@ describe('SearchInput', () => {
 
       const handleMatch = vi.fn();
 
-      const { getByRole } = render(<SearchInput items={items} onMatch={handleMatch} debounce />);
+      const { getByRole, unmount } = render(
+        <SearchInput items={items} onMatch={handleMatch} debounce />,
+      );
 
       const input = getByRole('textbox', { name: 'search' });
 
@@ -186,6 +187,8 @@ describe('SearchInput', () => {
       // * By now the default 500ms debounce have already passed
 
       expect(handleMatch).not.toHaveBeenCalled();
+
+      unmount();
     });
 
     it('should not trigger a match if input is cleared before debounced delay', async () => {
@@ -193,7 +196,9 @@ describe('SearchInput', () => {
 
       const handleMatch = vi.fn();
 
-      const { getByRole } = render(<SearchInput items={items} onMatch={handleMatch} debounce />);
+      const { getByRole, unmount } = render(
+        <SearchInput items={items} onMatch={handleMatch} debounce />,
+      );
 
       const input = getByRole('textbox', { name: 'search' });
 
@@ -208,6 +213,8 @@ describe('SearchInput', () => {
       // * By now the default 500ms debounce have already passed
 
       expect(handleMatch).not.toHaveBeenCalled();
+
+      unmount();
     });
 
     it('should hide the search button when debounced mode is enabled', () => {
@@ -215,11 +222,15 @@ describe('SearchInput', () => {
 
       const handleMatch = vi.fn();
 
-      const { queryByRole } = render(<SearchInput items={items} onMatch={handleMatch} debounce />);
+      const { queryByRole, unmount } = render(
+        <SearchInput items={items} onMatch={handleMatch} debounce />,
+      );
 
       const searchButton = queryByRole('button');
 
       expect(searchButton).toBeNull();
+
+      unmount();
     });
 
     it('should not return a value if debounced search is not enabled and button is not clicked', async () => {
