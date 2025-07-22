@@ -15,8 +15,6 @@ export function SearchInput({ onSearch, debounce }: SearchInputProps) {
   const handleManualOnMatch = useCallback(() => onSearch(searchValue), [onSearch, searchValue]);
 
   useEffect(() => {
-    console.log('debouncedValue', debouncedValue);
-
     if (!debounce || !debouncedValue) return;
 
     onSearch(debouncedValue);
