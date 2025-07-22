@@ -1,13 +1,15 @@
 import { Button } from '@components/Button/Button';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type InputHTMLAttributes } from 'react';
 import { useDebounce } from 'shared/hooks/useDebounce/useDebounce';
 import styles from './SearchInput.module.scss';
-interface SearchInputProps {
+
+// * Only allowed to pass input attributes, and onChange is controlled locally here, so omit that
+interface SearchInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
   onSearch: (searchValue: string) => string;
   debounce?: boolean;
 }
 
-export function SearchInput({ onSearch, debounce }: SearchInputProps) {
+export function SearchInput({ onSearch, debounce, ...inputProps }: SearchInputProps) {
   const [searchValue, setSearchValue] = useState('');
 
   const debouncedValue = useDebounce(searchValue);
@@ -31,6 +33,7 @@ export function SearchInput({ onSearch, debounce }: SearchInputProps) {
             onSearch(searchValue);
           }
         }}
+        {...inputProps}
       />
       {debounce ? null : (
         <Button disabled={!searchValue} onClick={() => onSearch(searchValue)}>
