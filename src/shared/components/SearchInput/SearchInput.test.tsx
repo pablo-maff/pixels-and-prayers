@@ -20,6 +20,7 @@ import { SearchInput } from './SearchInput';
 // 8. does not trigger search callback if debounce not enabled and no click
 // 9. should keep debouncing after first debounce cycle completed
 // 10. should send the whole searchValue when there has been two full debounce cycles
+// 12. should not trigger search when user presses enter in debounced mode
 
 describe('SearchInput', () => {
   let user: ReturnType<typeof userEvent.setup>;
@@ -232,6 +233,20 @@ describe('SearchInput', () => {
       expect(handleSearch).toHaveBeenCalledTimes(2);
 
       expect(handleSearch).toHaveBeenCalledWith('asdbcd');
+
+      unmount();
+    });
+
+    it('should not trigger search when user presses enter', async () => {
+      const handleSearch = vi.fn();
+
+      const { getByRole, unmount } = render(<SearchInput onSearch={handleSearch} debounce />);
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'asd{enter}');
+
+      expect(handleSearch).not.toHaveBeenCalled();
 
       unmount();
     });
