@@ -10,6 +10,7 @@ import { SearchInput } from './SearchInput';
 // 1. allows a user to enter search text
 // 2. returns the search value on button click
 // 3. disables the search button when there is no input
+// 4. should trigger search when Enter is pressed (manual mode)
 //
 // Debounced behavior (when debounce enabled):
 // 4. triggers search callback after typing stops and delay time has passed
@@ -62,6 +63,19 @@ describe('SearchInput', () => {
     render(<SearchInput onSearch={handleSearch} />);
 
     expect(screen.getByRole('button')).toBeDisabled();
+  });
+
+  it('should trigger search when Enter is pressed (manual mode)', async () => {
+    const handleSearch = vi.fn();
+
+    render(<SearchInput onSearch={handleSearch} />);
+
+    const input = screen.getByRole('textbox', { name: 'search' });
+
+    await user.type(input, `${userInput}{enter}`);
+
+    expect(handleSearch).toHaveBeenCalledWith(userInput);
+    expect(handleSearch).toHaveBeenCalledOnce();
   });
 
   // * Debounced search tests
@@ -198,7 +212,7 @@ describe('SearchInput', () => {
       unmount();
     });
 
-    it.only('should send the whole searchValue when there has been two full debounce cycles', async () => {
+    it('should send the whole searchValue when there has been two full debounce cycles', async () => {
       const handleSearch = vi.fn();
 
       const { getByRole, unmount } = render(<SearchInput onSearch={handleSearch} debounce />);
