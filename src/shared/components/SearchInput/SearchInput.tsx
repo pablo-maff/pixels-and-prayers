@@ -29,7 +29,7 @@ export function SearchInput({ onSearch, debounce }: SearchInputProps) {
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
         onKeyDown={(e) => {
-          if (e.key === 'Enter') {
+          if (!debounce && e.key === 'Enter') {
             onSearch(searchValue);
           }
         }}
