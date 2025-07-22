@@ -7,22 +7,6 @@ interface SearchInputProps {
   debounce?: boolean;
 }
 
-// function defaultSearch<T>(items: T[], searchValue: string) {
-//   if (!items.every((item) => typeof item === 'string')) {
-//     throw new Error('All items must be a string');
-//   }
-
-//   const sanitizedSearchValue = searchValue.trim().toLowerCase();
-
-//   if (!sanitizedSearchValue) {
-//     return [];
-//   }
-
-//   const match = items.filter((item) => item.toLowerCase().includes(sanitizedSearchValue));
-
-//   return match;
-// }
-
 export function SearchInput({ onSearch, debounce }: SearchInputProps) {
   const [searchValue, setSearchValue] = useState('');
 

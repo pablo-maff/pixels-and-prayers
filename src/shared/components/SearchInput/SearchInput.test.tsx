@@ -101,6 +101,7 @@ describe('SearchInput', () => {
       act(() => vi.advanceTimersByTime(500));
 
       expect(handleSearch).toHaveBeenCalledWith('Tadej');
+      expect(handleSearch).toHaveBeenCalledOnce();
     });
 
     it('should not return input while typing', async () => {
