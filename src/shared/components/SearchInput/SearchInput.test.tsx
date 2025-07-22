@@ -79,6 +79,25 @@ describe('SearchInput', () => {
     expect(handleSearch).toHaveBeenCalledOnce();
   });
 
+  it('should accept arbitrary input attributes', async () => {
+    const handleSearch = vi.fn();
+
+    render(
+      <SearchInput
+        onSearch={handleSearch}
+        debounce
+        aria-controls="custom-list"
+        data-testid="custom-input"
+        placeholder="Search riders"
+      />,
+    );
+
+    const input = screen.getByTestId('custom-input');
+
+    expect(input).toHaveAttribute('aria-controls', 'custom-list');
+    expect(input).toHaveAttribute('placeholder', 'Search riders');
+  });
+
   // * Debounced search tests
   describe('debounced search', () => {
     // ! We need to trick RTL into thinking that jest is running to properly use fakeTimers and user actions https://github.com/testing-library/user-event/issues/1115
