@@ -53,7 +53,7 @@ Feature: Autocomplete rendering and interaction
     Then it becomes the highlighted item
 */
 
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Autocomplete } from './Autocomplete';
 import userEvent from '@testing-library/user-event';
@@ -97,6 +97,24 @@ describe('Autocomplete', () => {
       );
 
       const result = queryByRole('option');
+
+      expect(result).toBeNull();
+    });
+
+    it('does show the dropdown if it has regained focus and items are available', async () => {
+      const { getByRole, queryByRole } = render(
+        <Autocomplete items={[testItems[0]]} onSearch={handleOnSearch} />,
+      );
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'abc');
+
+      const result = queryByRole('option');
+
+      expect(result).toBeVisible();
+
+      fireEvent.focusOut(input);
 
       expect(result).toBeNull();
     });
