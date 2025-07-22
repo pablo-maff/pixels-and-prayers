@@ -91,7 +91,15 @@ describe('Autocomplete', () => {
       expect(result).toBeVisible();
     });
 
-    it.skip('does not show the dropdown even if items are available', () => {});
+    it('does not show the dropdown if not focused even if items are available', () => {
+      const { getByRole } = render(
+        <Autocomplete items={[testItems[0]]} onSearch={handleOnSearch} />,
+      );
+
+      const result = getByRole('option');
+
+      expect(result).not.toBeVisible();
+    });
   });
 
   describe('Selecting an item with the mouse', () => {
