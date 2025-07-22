@@ -18,6 +18,7 @@ import { SearchInput } from './SearchInput';
 // 7. hides the search button when debounced mode is enabled
 // 8. does not trigger search callback if debounce not enabled and no click
 // 9. should keep debouncing after first debounce cycle completed
+// 10. should send the whole searchValue when there has been two full debounce cycles
 
 describe('SearchInput', () => {
   let user: ReturnType<typeof userEvent.setup>;
@@ -193,6 +194,30 @@ describe('SearchInput', () => {
       act(() => vi.advanceTimersByTime(400));
 
       expect(handleSearch).toHaveBeenCalledOnce();
+
+      unmount();
+    });
+
+    it.only('should send the whole searchValue when there has been two full debounce cycles', async () => {
+      const handleSearch = vi.fn();
+
+      const { getByRole, unmount } = render(<SearchInput onSearch={handleSearch} debounce />);
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'asd');
+
+      act(() => vi.advanceTimersByTime(500));
+
+      expect(handleSearch).toHaveBeenCalledOnce();
+
+      await user.type(input, 'bcd');
+
+      act(() => vi.advanceTimersByTime(500));
+
+      expect(handleSearch).toHaveBeenCalledTimes(2);
+
+      expect(handleSearch).toHaveBeenCalledWith('asdbcd');
 
       unmount();
     });
