@@ -173,5 +173,25 @@ describe('SearchInput', () => {
 
       expect(handleSearch).not.toHaveBeenCalled();
     });
+
+    it('should keep debouncing after first debounce cycle completed', async () => {
+      const handleSearch = vi.fn();
+
+      const { getByRole } = render(<SearchInput onSearch={handleSearch} debounce />);
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'asd');
+
+      act(() => vi.advanceTimersByTime(500));
+
+      expect(handleSearch).toHaveBeenCalledOnce();
+
+      await user.type(input, 'bcd');
+
+      act(() => vi.advanceTimersByTime(400));
+
+      expect(handleSearch).toHaveBeenCalledOnce();
+    });
   });
 });
