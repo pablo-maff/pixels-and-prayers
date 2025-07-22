@@ -28,6 +28,11 @@ export function SearchInput({ onSearch, debounce }: SearchInputProps) {
         className={styles.input}
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            onSearch(searchValue);
+          }
+        }}
       />
       {debounce ? null : (
         <Button disabled={!searchValue} onClick={handleManualOnMatch}>
