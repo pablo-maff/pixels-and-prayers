@@ -1,4 +1,5 @@
 import { SearchInput } from '@components/SearchInput/SearchInput';
+import { useState } from 'react';
 
 interface AutocompleteProps {
   items: string[];
@@ -6,21 +7,26 @@ interface AutocompleteProps {
 }
 
 export function Autocomplete({ items, onSearch }: AutocompleteProps) {
+  const [isInputFocused, setIsInputFocused] = useState(false);
+
   return (
     <div role="combobox" aria-haspopup="listbox">
       <SearchInput
-        onSearch={onSearch}
         debounce
+        onSearch={onSearch}
+        onFocus={() => setIsInputFocused(true)}
         aria-autocomplete="list"
         aria-controls="autocomplete-list"
       />
-      <ul role="listbox" id="autocomplete-list">
-        {items.map((item) => (
-          <li role="option" id={item} key={item}>
-            {item}
-          </li>
-        ))}
-      </ul>
+      {isInputFocused ? (
+        <ul role="listbox" id="autocomplete-list">
+          {items.map((item) => (
+            <li role="option" id={item} key={item}>
+              {item}
+            </li>
+          ))}
+        </ul>
+      ) : null}
     </div>
   );
 }

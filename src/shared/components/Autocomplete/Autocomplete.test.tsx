@@ -92,13 +92,13 @@ describe('Autocomplete', () => {
     });
 
     it('does not show the dropdown if not focused even if items are available', () => {
-      const { getByRole } = render(
+      const { queryByRole } = render(
         <Autocomplete items={[testItems[0]]} onSearch={handleOnSearch} />,
       );
 
-      const result = getByRole('option');
+      const result = queryByRole('option');
 
-      expect(result).not.toBeVisible();
+      expect(result).toBeNull();
     });
   });
 
