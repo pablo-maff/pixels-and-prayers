@@ -237,7 +237,7 @@ describe('SearchInput', () => {
       unmount();
     });
 
-    it('should not trigger search when user presses enter', async () => {
+    it('should not trigger search when user presses enter on debounced mode', async () => {
       const handleSearch = vi.fn();
 
       const { getByRole, unmount } = render(<SearchInput onSearch={handleSearch} debounce />);
