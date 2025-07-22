@@ -1,6 +1,14 @@
 import { describe, it, expect } from 'vitest';
 import { ERROR_MESSAGE, stringSearch } from './searchString';
 
+// * Requirements:
+// * 1. Return all items that include the term as a substring.
+// * 2. Not be affected by leading or trailing whitespace in the search term.
+// * 3. Perform case-insensitive matching.
+// * 4. Return an empty array for empty or whitespace-only search term.
+// * 5. Throw an error if any item is not a string.
+// * 6. Not mutate the original array (pure function).
+
 const items = ['Alpha', 'beta', 'Gamma', 'alphabet'];
 
 describe('stringSearch', () => {
