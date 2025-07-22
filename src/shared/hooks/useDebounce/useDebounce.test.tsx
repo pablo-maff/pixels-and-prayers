@@ -179,4 +179,29 @@ describe('useDebounce', () => {
 
     expect(output).toHaveTextContent('15');
   });
+
+  it('should keep debouncing after first debounce cycle completed', async () => {
+    const { getByRole } = render(<TestComponent initialValue={''} />);
+
+    const input = getByRole('textbox');
+    const output = getByRole('status');
+
+    await user.type(input, first);
+
+    expect(output).toHaveTextContent('');
+
+    act(() => vi.advanceTimersByTime(500));
+
+    expect(output).toHaveTextContent(first);
+
+    await user.type(input, first);
+
+    act(() => vi.advanceTimersByTime(400));
+
+    expect(output).toHaveTextContent(first);
+
+    act(() => vi.advanceTimersByTime(100));
+
+    expect(output).toHaveTextContent(first + first);
+  });
 });

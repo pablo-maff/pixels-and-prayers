@@ -17,6 +17,7 @@ import { SearchInput } from './SearchInput';
 // 6. does not trigger search callback if input is cleared before debounced delay
 // 7. hides the search button when debounced mode is enabled
 // 8. does not trigger search callback if debounce not enabled and no click
+// 9. should keep debouncing after first debounce cycle completed
 
 describe('SearchInput', () => {
   let user: ReturnType<typeof userEvent.setup>;
@@ -177,7 +178,7 @@ describe('SearchInput', () => {
     it('should keep debouncing after first debounce cycle completed', async () => {
       const handleSearch = vi.fn();
 
-      const { getByRole } = render(<SearchInput onSearch={handleSearch} debounce />);
+      const { getByRole, unmount } = render(<SearchInput onSearch={handleSearch} debounce />);
 
       const input = getByRole('textbox', { name: 'search' });
 
@@ -192,6 +193,8 @@ describe('SearchInput', () => {
       act(() => vi.advanceTimersByTime(400));
 
       expect(handleSearch).toHaveBeenCalledOnce();
+
+      unmount();
     });
   });
 });

@@ -12,13 +12,15 @@ export function SearchInput({ onSearch, debounce }: SearchInputProps) {
 
   const debouncedValue = useDebounce(searchValue);
 
-  const handleOnMatch = useCallback(() => onSearch(searchValue), [onSearch, searchValue]);
+  const handleManualOnMatch = useCallback(() => onSearch(searchValue), [onSearch, searchValue]);
 
   useEffect(() => {
+    console.log('debouncedValue', debouncedValue);
+
     if (!debounce || !debouncedValue) return;
 
-    handleOnMatch();
-  }, [debouncedValue, debounce, handleOnMatch]);
+    onSearch(debouncedValue);
+  }, [debouncedValue, debounce, onSearch]);
 
   return (
     <div className={styles.container}>
@@ -30,7 +32,7 @@ export function SearchInput({ onSearch, debounce }: SearchInputProps) {
         onChange={(e) => setSearchValue(e.target.value)}
       />
       {debounce ? null : (
-        <Button disabled={!searchValue} onClick={handleOnMatch}>
+        <Button disabled={!searchValue} onClick={handleManualOnMatch}>
           <span>Search</span>
         </Button>
       )}
