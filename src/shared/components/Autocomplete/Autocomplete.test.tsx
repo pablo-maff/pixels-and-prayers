@@ -116,7 +116,9 @@ describe('Autocomplete', () => {
 
       fireEvent.focusOut(input);
 
-      expect(result).toBeNull();
+      const resultAfterLostFocus = queryByRole('option');
+
+      expect(resultAfterLostFocus).toBeNull();
     });
   });
 

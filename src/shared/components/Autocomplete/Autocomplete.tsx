@@ -15,6 +15,7 @@ export function Autocomplete({ items, onSearch }: AutocompleteProps) {
         debounce
         onSearch={onSearch}
         onFocus={() => setIsInputFocused(true)}
+        onBlur={() => setIsInputFocused(false)}
         aria-autocomplete="list"
         aria-controls="autocomplete-list"
       />
