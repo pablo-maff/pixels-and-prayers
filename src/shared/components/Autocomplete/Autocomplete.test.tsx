@@ -77,7 +77,7 @@ describe('Autocomplete', () => {
     handleOnSearch = vi.fn();
   });
   describe('Displaying the list', () => {
-    it('shows the dropdown when input is focused and items are provided', async () => {
+    it('shows the dropdown when input is focused and an item is provided', async () => {
       const { getByRole } = render(
         <Autocomplete items={[testItems[0]]} onSearch={handleOnSearch} />,
       );
@@ -91,7 +91,7 @@ describe('Autocomplete', () => {
       expect(result).toBeVisible();
     });
 
-    it('does not show the dropdown if not focused even if items are available', () => {
+    it('does not show the dropdown if not focused even if an item is available', () => {
       const { queryByRole } = render(
         <Autocomplete items={[testItems[0]]} onSearch={handleOnSearch} />,
       );
@@ -101,7 +101,7 @@ describe('Autocomplete', () => {
       expect(result).toBeNull();
     });
 
-    it('does show the dropdown if it has regained focus and items are available', async () => {
+    it('does show the dropdown if it has regained focus and an item is available', async () => {
       const { getByRole, queryByRole } = render(
         <Autocomplete items={[testItems[0]]} onSearch={handleOnSearch} />,
       );
@@ -119,6 +119,20 @@ describe('Autocomplete', () => {
       const resultAfterLostFocus = queryByRole('option');
 
       expect(resultAfterLostFocus).toBeNull();
+    });
+
+    it('shows the dropdown with multiple items when multiple items are provided', async () => {
+      const { getByRole, getAllByRole } = render(
+        <Autocomplete items={testItems} onSearch={handleOnSearch} />,
+      );
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'abc');
+
+      const result = getAllByRole('option');
+
+      expect(result.length).toEqual(testItems.length);
     });
   });
 
