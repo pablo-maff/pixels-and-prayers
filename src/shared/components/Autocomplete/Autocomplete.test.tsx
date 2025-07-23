@@ -172,7 +172,7 @@ describe('Autocomplete', () => {
   });
 
   describe('Navigating items with the keyboard', () => {
-    it('highlights the next item with down arrow', async () => {
+    it('highlights the first item with down arrow', async () => {
       const { getByRole, getAllByRole } = render(
         <Autocomplete items={testItems} onSearch={handleOnSearch} />,
       );
@@ -186,6 +186,23 @@ describe('Autocomplete', () => {
       await user.keyboard('{ArrowDown}');
 
       expect(options[0]).toHaveAttribute('aria-selected', 'true');
+    });
+
+    it('only one item is highlighted at the same time', async () => {
+      const { getByRole, getAllByRole } = render(
+        <Autocomplete items={testItems} onSearch={handleOnSearch} />,
+      );
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'abc');
+
+      const options = getAllByRole('option');
+
+      await user.keyboard('{ArrowDown}');
+
+      expect(options[0]).toHaveAttribute('aria-selected', 'true');
+      expect(options[1]).toHaveAttribute('aria-selected', 'false');
     });
     it.skip('highlights the previous item with up arrow', () => {});
   });
