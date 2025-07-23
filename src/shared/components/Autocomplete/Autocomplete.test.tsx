@@ -292,7 +292,7 @@ describe('Autocomplete', () => {
       expect(options[3]).toHaveAttribute('aria-selected', 'false');
     });
 
-    it('after pressing the up arrow key the last item is highlighted', async () => {
+    it('if no item is highlighted after pressing the up arrow key the last item is highlighted', async () => {
       const { getByRole, getAllByRole } = render(
         <Autocomplete items={testItems} onSearch={handleOnSearch} />,
       );

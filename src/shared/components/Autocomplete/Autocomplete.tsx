@@ -27,6 +27,11 @@ export function Autocomplete({ items, onSearch }: AutocompleteProps) {
             setHighlightedOption((prev) => prev + 1);
           }
           if (e.key === 'ArrowUp') {
+            if (highlightedOption === -1) {
+              setHighlightedOption(items.length - 1);
+              return;
+            }
+
             setHighlightedOption((prev) => prev - 1);
           }
         }}
