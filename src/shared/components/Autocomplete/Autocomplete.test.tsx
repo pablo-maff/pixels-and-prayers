@@ -152,7 +152,23 @@ describe('Autocomplete', () => {
 
       expect(handleOnSearch).toHaveBeenCalledExactlyOnceWith(testItems[0]);
     });
-    it.skip('closes the dropdown after selection', () => {});
+    it('closes the dropdown after selection', async () => {
+      const { getByRole, getAllByRole, queryAllByRole } = render(
+        <Autocomplete items={testItems} onSearch={handleOnSearch} />,
+      );
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'abc');
+
+      const options = getAllByRole('option');
+
+      await user.click(options[0]);
+
+      const optionsAfterSelection = queryAllByRole('option');
+
+      expect(optionsAfterSelection.length).toBe(0);
+    });
   });
 
   describe('Navigating items with the keyboard', () => {
