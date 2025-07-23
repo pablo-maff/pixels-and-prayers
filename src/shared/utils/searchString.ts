@@ -1,6 +1,6 @@
-export const ERROR_MESSAGE = 'All items must be a string'
+export const ERROR_MESSAGE = 'All items must be a string';
 
-export function stringSearch(items: string[], searchValue: string) {
+export function searchString(items: string[], searchValue: string) {
   if (!items.every((item) => typeof item === 'string')) {
     throw new Error(ERROR_MESSAGE);
   }

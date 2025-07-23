@@ -1,5 +1,6 @@
 import { SearchInput } from '@components/SearchInput/SearchInput';
 import { useState } from 'react';
+import styles from './Autocomplete.module.scss';
 
 interface AutocompleteProps {
   items: string[];
@@ -30,7 +31,7 @@ export function Autocomplete({ items, onSearch }: AutocompleteProps) {
   }
 
   return (
-    <div role="combobox" aria-haspopup="listbox">
+    <div className={styles.container} role="combobox" aria-haspopup="listbox">
       <SearchInput
         debounce
         onSearch={onSearch}
@@ -42,9 +43,10 @@ export function Autocomplete({ items, onSearch }: AutocompleteProps) {
         aria-activedescendant={highlightedOption.toString() || undefined}
       />
       {isInputFocused ? (
-        <ul role="listbox" id="autocomplete-list">
+        <ul className={styles.dropdown} role="listbox" id="autocomplete-list">
           {items.map((item, i) => (
             <li
+              className={styles.option}
               role="option"
               aria-selected={i === highlightedOption}
               id={item}
