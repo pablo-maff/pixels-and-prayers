@@ -204,6 +204,28 @@ describe('Autocomplete', () => {
       expect(options[0]).toHaveAttribute('aria-selected', 'true');
       expect(options[1]).toHaveAttribute('aria-selected', 'false');
     });
+
+    it('highlights the n item with down arrow', async () => {
+      const { getByRole, getAllByRole } = render(
+        <Autocomplete items={testItems} onSearch={handleOnSearch} />,
+      );
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'abc');
+
+      const options = getAllByRole('option');
+
+      await user.keyboard('{ArrowDown}{ArrowDown}{ArrowDown}');
+
+      expect(options[0]).toHaveAttribute('aria-selected', 'false');
+      expect(options[1]).toHaveAttribute('aria-selected', 'false');
+
+      expect(options[2]).toHaveAttribute('aria-selected', 'true');
+
+      expect(options[3]).toHaveAttribute('aria-selected', 'false');
+    });
+
     it.skip('highlights the previous item with up arrow', () => {});
   });
 
