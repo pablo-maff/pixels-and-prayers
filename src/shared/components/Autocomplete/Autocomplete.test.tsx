@@ -253,6 +253,25 @@ describe('Autocomplete', () => {
       expect(options[2]).toHaveAttribute('aria-selected', 'false');
       expect(options[3]).toHaveAttribute('aria-selected', 'false');
     });
+
+    it('after reaching the last option and pressing the down arrow twice highlight goes back to the first option', async () => {
+      const { getByRole, getAllByRole } = render(
+        <Autocomplete items={testItems} onSearch={handleOnSearch} />,
+      );
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'abc');
+
+      const options = getAllByRole('option');
+
+      await user.keyboard('{ArrowDown}{ArrowDown}{ArrowDown}{ArrowDown}{ArrowDown}{ArrowDown}');
+
+      expect(options[0]).toHaveAttribute('aria-selected', 'true');
+      expect(options[1]).toHaveAttribute('aria-selected', 'false');
+      expect(options[2]).toHaveAttribute('aria-selected', 'false');
+      expect(options[3]).toHaveAttribute('aria-selected', 'false');
+    });
   });
 
   describe('Selecting an item with Enter', () => {
