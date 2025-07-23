@@ -42,7 +42,7 @@ export function Autocomplete({ items, onSearch }: AutocompleteProps) {
         aria-controls="autocomplete-list"
         aria-activedescendant={highlightedOption.toString() || undefined}
       />
-      {isInputFocused ? (
+      {isInputFocused && items.length > 0 ? (
         <ul className={styles.dropdown} role="listbox" id="autocomplete-list">
           {items.map((item, i) => (
             <li

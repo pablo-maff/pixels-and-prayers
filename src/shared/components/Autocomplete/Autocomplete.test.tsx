@@ -95,14 +95,14 @@ describe('Autocomplete', () => {
 
     it('does not show the dropdown if focused and there are no items available', async () => {
       const { getByRole, queryByRole } = render(
-        <Autocomplete items={[testItems[0]]} onSearch={handleOnSearch} />,
+        <Autocomplete items={[]} onSearch={handleOnSearch} />,
       );
 
       const input = getByRole('textbox', { name: 'search' });
 
       await user.click(input);
 
-      const result = queryByRole('option');
+      const result = queryByRole('listbox');
 
       expect(result).toBeNull();
     });
