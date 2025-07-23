@@ -19,6 +19,11 @@ export function Autocomplete({ items, onSearch }: AutocompleteProps) {
         onBlur={() => setIsInputFocused(false)}
         onKeyDown={(e) => {
           if (e.key === 'ArrowDown') {
+            if (highlightedOption === items.length - 1) {
+              setHighlightedOption(-1);
+              return;
+            }
+
             setHighlightedOption((prev) => prev + 1);
           }
           if (e.key === 'ArrowUp') {
