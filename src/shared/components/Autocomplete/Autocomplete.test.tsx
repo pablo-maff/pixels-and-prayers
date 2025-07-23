@@ -272,6 +272,25 @@ describe('Autocomplete', () => {
       expect(options[2]).toHaveAttribute('aria-selected', 'false');
       expect(options[3]).toHaveAttribute('aria-selected', 'false');
     });
+
+    it('after pressing the up arrow key on the first item highlight is removed', async () => {
+      const { getByRole, getAllByRole } = render(
+        <Autocomplete items={testItems} onSearch={handleOnSearch} />,
+      );
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'abc');
+
+      const options = getAllByRole('option');
+
+      await user.keyboard('{ArrowDown}{ArrowUp}');
+
+      expect(options[0]).toHaveAttribute('aria-selected', 'false');
+      expect(options[1]).toHaveAttribute('aria-selected', 'false');
+      expect(options[2]).toHaveAttribute('aria-selected', 'false');
+      expect(options[3]).toHaveAttribute('aria-selected', 'false');
+    });
   });
 
   describe('Selecting an item with Enter', () => {
