@@ -21,6 +21,9 @@ export function Autocomplete({ items, onSearch }: AutocompleteProps) {
           if (e.key === 'ArrowDown') {
             setHighlightedOption((prev) => prev + 1);
           }
+          if (e.key === 'ArrowUp') {
+            setHighlightedOption((prev) => prev - 1);
+          }
         }}
         aria-autocomplete="list"
         aria-controls="autocomplete-list"
