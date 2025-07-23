@@ -5,7 +5,7 @@ import styles from './SearchInput.module.scss';
 
 // * Only allowed to pass input attributes, and onChange is controlled locally here, so omit that
 interface SearchInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
-  onSearch: (searchValue: string) => string;
+  onSearch: (searchValue: string) => void;
   debounce?: boolean;
 }
 

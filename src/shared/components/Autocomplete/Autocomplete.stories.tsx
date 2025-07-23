@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
 import { Autocomplete } from './Autocomplete';
 import { searchString } from 'shared/utils/searchString';
 
@@ -7,29 +6,28 @@ const meta: Meta<typeof Autocomplete> = {
   title: 'Components/Autocomplete',
   component: Autocomplete,
   tags: ['autodocs'],
+  argTypes: {
+    onSearch: { action: 'onSearch' },
+    onSelect: { action: 'onSelect' },
+  },
 };
 export default meta;
 
 type Story = StoryObj<typeof Autocomplete>;
 
 const sampleItems = ['apple', 'banana', 'grape', 'orange', 'pineapple'];
+const tropicalItems = ['mango', 'melon', 'mandarin'];
 
 export const Basic: Story = {
-  render: () => {
-    const [items, setItems] = useState<string[]>([]);
-    return (
-      <Autocomplete
-        items={items}
-        onSearch={(query) => {
-          const results = searchString(sampleItems, query);
-          setItems(results);
-          return query;
-        }}
-      />
-    );
+  args: {
+    items: sampleItems,
+    onSearch: (query) => searchString(sampleItems, query),
   },
 };
 
-export const WithPreloadedItems: Story = {
-  render: () => <Autocomplete items={sampleItems} onSearch={(value) => value} />,
+export const PreFiltered: Story = {
+  args: {
+    items: tropicalItems,
+    onSearch: (query) => searchString(tropicalItems, query),
+  },
 };

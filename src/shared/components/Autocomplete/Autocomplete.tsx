@@ -4,16 +4,18 @@ import styles from './Autocomplete.module.scss';
 
 interface AutocompleteProps {
   items: string[];
-  onSearch: (searchValue: string) => string;
+  onSearch: (searchValue: string) => string[];
+  onSelect: (selectedItem: string) => void;
 }
 
-export function Autocomplete({ items, onSearch }: AutocompleteProps) {
+export function Autocomplete({ items, onSearch, onSelect }: AutocompleteProps) {
+  const [filteredItems, setFilteredItems] = useState(items);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [highlightedOption, setHighlightedOption] = useState(-1);
 
   function handleOnKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'ArrowDown') {
-      if (highlightedOption === items.length - 1) {
+      if (highlightedOption === filteredItems.length - 1) {
         setHighlightedOption(-1);
         return;
       }
@@ -22,7 +24,7 @@ export function Autocomplete({ items, onSearch }: AutocompleteProps) {
     }
     if (e.key === 'ArrowUp') {
       if (highlightedOption === -1) {
-        setHighlightedOption(items.length - 1);
+        setHighlightedOption(filteredItems.length - 1);
         return;
       }
 
@@ -34,24 +36,26 @@ export function Autocomplete({ items, onSearch }: AutocompleteProps) {
     <div className={styles.container} role="combobox" aria-haspopup="listbox">
       <SearchInput
         debounce
-        onSearch={onSearch}
+        onSearch={(searchValue) => setFilteredItems(onSearch(searchValue))}
         onFocus={() => setIsInputFocused(true)}
         onBlur={() => setIsInputFocused(false)}
         onKeyDown={handleOnKeyDown}
         aria-autocomplete="list"
         aria-controls="autocomplete-list"
-        aria-activedescendant={highlightedOption.toString() || undefined}
+        aria-activedescendant={
+          highlightedOption >= 0 ? filteredItems[highlightedOption] : undefined
+        }
       />
-      {isInputFocused && items.length > 0 ? (
+      {isInputFocused && filteredItems.length > 0 ? (
         <ul className={styles.dropdown} role="listbox" id="autocomplete-list">
-          {items.map((item, i) => (
+          {filteredItems.map((item, i) => (
             <li
               className={styles.option}
               role="option"
               aria-selected={i === highlightedOption}
               id={item}
               key={item}
-              onMouseDown={() => onSearch(item)}
+              onMouseDown={() => onSelect(item)}
             >
               {item}
             </li>
