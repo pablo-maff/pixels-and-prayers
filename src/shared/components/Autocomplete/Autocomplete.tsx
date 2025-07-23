@@ -8,6 +8,7 @@ interface AutocompleteProps {
 
 export function Autocomplete({ items, onSearch }: AutocompleteProps) {
   const [isInputFocused, setIsInputFocused] = useState(false);
+  const [highlightedOption, setHighlightedOption] = useState(-1);
 
   return (
     <div role="combobox" aria-haspopup="listbox">
@@ -16,15 +17,21 @@ export function Autocomplete({ items, onSearch }: AutocompleteProps) {
         onSearch={onSearch}
         onFocus={() => setIsInputFocused(true)}
         onBlur={() => setIsInputFocused(false)}
+        onKeyDown={(e) => {
+          if (e.key === 'ArrowDown') {
+            setHighlightedOption((prev) => prev + 1);
+          }
+        }}
         aria-autocomplete="list"
         aria-controls="autocomplete-list"
+        aria-activedescendant={highlightedOption.toString() || undefined}
       />
       {isInputFocused ? (
         <ul role="listbox" id="autocomplete-list">
-          {items.map((item) => (
+          {items.map((item, i) => (
             <li
               role="option"
-              aria-selected={true}
+              aria-selected={i === highlightedOption}
               id={item}
               key={item}
               onMouseDown={() => onSearch(item)}
