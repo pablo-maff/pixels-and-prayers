@@ -62,15 +62,7 @@ describe('Autocomplete', () => {
   let user: ReturnType<typeof userEvent.setup>;
   let handleOnSearch: ReturnType<typeof vi.fn>;
 
-  const testItems = [
-    'Tadej Pogačar',
-    'Jonas Vingegaard',
-    'Remco Evenepoel',
-    'Primož Roglič',
-    'Wout van Aert',
-    'Mathieu van der Poel',
-    'Mads Pedersen',
-  ];
+  const testItems = ['Tadej Pogačar', 'Jonas Vingegaard', 'Remco Evenepoel', 'Primož Roglič'];
 
   beforeEach(() => {
     user = userEvent.setup();
@@ -241,6 +233,25 @@ describe('Autocomplete', () => {
 
       expect(options[0]).toHaveAttribute('aria-selected', 'true');
       expect(options[1]).toHaveAttribute('aria-selected', 'false');
+    });
+
+    it('after reaching the last option and pressing the down arrow highlight is removed', async () => {
+      const { getByRole, getAllByRole } = render(
+        <Autocomplete items={testItems} onSearch={handleOnSearch} />,
+      );
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'abc');
+
+      const options = getAllByRole('option');
+
+      await user.keyboard('{ArrowDown}{ArrowDown}{ArrowDown}{ArrowDown}{ArrowDown}');
+
+      expect(options[0]).toHaveAttribute('aria-selected', 'false');
+      expect(options[1]).toHaveAttribute('aria-selected', 'false');
+      expect(options[2]).toHaveAttribute('aria-selected', 'false');
+      expect(options[3]).toHaveAttribute('aria-selected', 'false');
     });
   });
 
