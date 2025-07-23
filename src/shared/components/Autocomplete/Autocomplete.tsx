@@ -32,11 +32,25 @@ export function Autocomplete({ items, onSearch, onSelect }: AutocompleteProps) {
     }
   }
 
+  function handleOnSearch(searchValue: string) {
+    const results = onSearch(searchValue);
+
+    setFilteredItems((prev) => {
+      // TODO: Need to make SearchInput a fully controlled component to prevent this quirks
+      // ! Temp solution to prevent infinite loop due to different array reference coming from pure filter function
+      if (JSON.stringify(prev) === JSON.stringify(results)) {
+        return prev;
+      }
+      return results;
+    });
+    return searchValue;
+  }
+
   return (
     <div className={styles.container} role="combobox" aria-haspopup="listbox">
       <SearchInput
         debounce
-        onSearch={(searchValue) => setFilteredItems(onSearch(searchValue))}
+        onSearch={(searchValue) => handleOnSearch(searchValue)}
         onFocus={() => setIsInputFocused(true)}
         onBlur={() => setIsInputFocused(false)}
         onKeyDown={handleOnKeyDown}

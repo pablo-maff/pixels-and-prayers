@@ -15,7 +15,7 @@ export function SearchInput({ onSearch, debounce, ...inputProps }: SearchInputPr
   const debouncedValue = useDebounce(searchValue);
 
   useEffect(() => {
-    if (!debounce || !debouncedValue) return;
+    if (!debounce || typeof debouncedValue !== 'string') return;
 
     onSearch(debouncedValue);
   }, [debouncedValue, debounce, onSearch]);
