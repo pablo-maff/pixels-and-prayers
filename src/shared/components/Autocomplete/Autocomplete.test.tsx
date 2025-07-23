@@ -137,7 +137,21 @@ describe('Autocomplete', () => {
   });
 
   describe('Selecting an item with the mouse', () => {
-    it.skip('selects the item when clicked', () => {});
+    it('selects the item when clicked', async () => {
+      const { getByRole, getAllByRole } = render(
+        <Autocomplete items={testItems} onSearch={handleOnSearch} />,
+      );
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'abc');
+
+      const result = getAllByRole('option');
+
+      await user.click(result[0]);
+
+      expect(handleOnSearch).toHaveBeenCalledExactlyOnceWith(testItems[0]);
+    });
     it.skip('closes the dropdown after selection', () => {});
   });
 
