@@ -22,7 +22,13 @@ export function Autocomplete({ items, onSearch }: AutocompleteProps) {
       {isInputFocused ? (
         <ul role="listbox" id="autocomplete-list">
           {items.map((item) => (
-            <li role="option" id={item} key={item} onMouseDown={() => onSearch(item)}>
+            <li
+              role="option"
+              aria-selected={true}
+              id={item}
+              key={item}
+              onMouseDown={() => onSearch(item)}
+            >
               {item}
             </li>
           ))}
