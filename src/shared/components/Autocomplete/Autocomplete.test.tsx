@@ -172,7 +172,21 @@ describe('Autocomplete', () => {
   });
 
   describe('Navigating items with the keyboard', () => {
-    it.skip('highlights the next item with down arrow', () => {});
+    it('highlights the next item with down arrow', async () => {
+      const { getByRole, getAllByRole } = render(
+        <Autocomplete items={testItems} onSearch={handleOnSearch} />,
+      );
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'abc');
+
+      const options = getAllByRole('option');
+
+      await user.keyboard('{ArrowDown}');
+
+      expect(options[0]).toHaveAttribute('aria-selected', 'true');
+    });
     it.skip('highlights the previous item with up arrow', () => {});
   });
 
