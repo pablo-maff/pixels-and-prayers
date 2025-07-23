@@ -10,6 +10,25 @@ export function Autocomplete({ items, onSearch }: AutocompleteProps) {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [highlightedOption, setHighlightedOption] = useState(-1);
 
+  function handleOnKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === 'ArrowDown') {
+      if (highlightedOption === items.length - 1) {
+        setHighlightedOption(-1);
+        return;
+      }
+
+      setHighlightedOption((prev) => prev + 1);
+    }
+    if (e.key === 'ArrowUp') {
+      if (highlightedOption === -1) {
+        setHighlightedOption(items.length - 1);
+        return;
+      }
+
+      setHighlightedOption((prev) => prev - 1);
+    }
+  }
+
   return (
     <div role="combobox" aria-haspopup="listbox">
       <SearchInput
@@ -17,24 +36,7 @@ export function Autocomplete({ items, onSearch }: AutocompleteProps) {
         onSearch={onSearch}
         onFocus={() => setIsInputFocused(true)}
         onBlur={() => setIsInputFocused(false)}
-        onKeyDown={(e) => {
-          if (e.key === 'ArrowDown') {
-            if (highlightedOption === items.length - 1) {
-              setHighlightedOption(-1);
-              return;
-            }
-
-            setHighlightedOption((prev) => prev + 1);
-          }
-          if (e.key === 'ArrowUp') {
-            if (highlightedOption === -1) {
-              setHighlightedOption(items.length - 1);
-              return;
-            }
-
-            setHighlightedOption((prev) => prev - 1);
-          }
-        }}
+        onKeyDown={handleOnKeyDown}
         aria-autocomplete="list"
         aria-controls="autocomplete-list"
         aria-activedescendant={highlightedOption.toString() || undefined}
