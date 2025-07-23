@@ -146,9 +146,9 @@ describe('Autocomplete', () => {
 
       await user.type(input, 'abc');
 
-      const result = getAllByRole('option');
+      const options = getAllByRole('option');
 
-      await user.click(result[0]);
+      await user.click(options[0]);
 
       expect(handleOnSearch).toHaveBeenCalledExactlyOnceWith(testItems[0]);
     });
