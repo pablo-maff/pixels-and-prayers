@@ -30,6 +30,10 @@ export function Autocomplete({ items, onSearch, onSelect }: AutocompleteProps) {
 
       setHighlightedOption((prev) => prev - 1);
     }
+
+    if (e.key === 'Enter' && highlightedOption >= 0) {
+      onSelect(filteredItems[highlightedOption]);
+    }
   }
 
   function handleOnSearch(searchValue: string) {
