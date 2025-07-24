@@ -332,7 +332,19 @@ describe('Autocomplete', () => {
   });
 
   describe('Selecting an item with Enter', () => {
-    it.skip('selects the highlighted item with Enter', () => {});
+    it('selects the highlighted item with Enter', async () => {
+      const { getByRole } = render(
+        <Autocomplete items={testItems} onSearch={handleOnSearch} onSelect={handleOnSelect} />,
+      );
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'abc');
+
+      await user.keyboard('{ArrowDown}{Enter}');
+
+      expect(handleOnSelect).toHaveBeenCalledExactlyOnceWith(testItems[0]);
+    });
     it.skip('closes the dropdown after selection', () => {});
   });
 
