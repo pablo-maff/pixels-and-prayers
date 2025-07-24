@@ -1,17 +1,26 @@
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, beforeEach, it, expect } from 'vitest';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { Input } from './Input';
+import { useState } from 'react';
 
 describe('Input', () => {
   let user: ReturnType<typeof userEvent.setup>;
+  let handleChange: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
     user = userEvent.setup();
+    handleChange = vi.fn();
   });
 
+  function TestInputWrapper() {
+    const [value, setValue] = useState('');
+
+    return <Input value={value} onChange={(newValue) => setValue(newValue)} />;
+  }
+
   it('renders with the initial value', () => {
-    const { getByRole } = render(<Input value={'Hello'} />);
+    const { getByRole } = render(<Input value={'Hello'} onChange={handleChange} />);
 
     const input = getByRole('textbox');
 
@@ -19,7 +28,7 @@ describe('Input', () => {
   });
 
   it('reflects user typing', async () => {
-    const { getByRole } = render(<Input value={''} />);
+    const { getByRole } = render(<TestInputWrapper />);
 
     const input = getByRole('textbox');
 

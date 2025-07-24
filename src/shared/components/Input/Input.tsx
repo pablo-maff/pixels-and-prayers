@@ -1,3 +1,8 @@
-export function Input({ value }: { value: string }) {
-  return <input value={value} />;
+interface InputProps {
+  value: string;
+  onChange: (value: string) => void;
+}
+
+export function Input({ value, onChange }: InputProps) {
+  return <input value={value} onChange={(e) => onChange(e.target.value)} />;
 }
