@@ -33,6 +33,8 @@ export function Autocomplete({ items, onSearch, onSelect }: AutocompleteProps) {
 
     if (e.key === 'Enter' && highlightedOption >= 0) {
       onSelect(filteredItems[highlightedOption]);
+      setFilteredItems(items);
+      setIsInputFocused(false);
     }
   }
 

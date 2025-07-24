@@ -358,7 +358,21 @@ describe('Autocomplete', () => {
 
       const options = queryAllByRole('option');
 
-      expect(options).toBeNull();
+      expect(options.length).toBe(0);
+    });
+
+    it('the selected item name fills the input', async () => {
+      const { getByRole } = render(
+        <Autocomplete items={testItems} onSearch={handleOnSearch} onSelect={handleOnSelect} />,
+      );
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'abc');
+
+      await user.keyboard('{ArrowDown}{Enter}');
+
+      expect(input).toHaveValue(testItems[0]);
     });
   });
 
