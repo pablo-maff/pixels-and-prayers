@@ -16,11 +16,11 @@ describe('Input', () => {
   function TestInputWrapper() {
     const [value, setValue] = useState('');
 
-    return <Input value={value} onChange={(newValue) => setValue(newValue)} />;
+    return <Input value={value} onChange={(e) => setValue(e.target.value)} />;
   }
 
   it('renders with the initial value', () => {
-    const { getByRole } = render(<Input value={'Hello'} onChange={handleChange} />);
+    const { getByRole } = render(<Input value={'Hello'} />);
 
     const input = getByRole('textbox');
 

@@ -1,8 +1,9 @@
-interface InputProps {
+import type { InputHTMLAttributes } from 'react';
+
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   value: string;
-  onChange: (value: string) => void;
 }
 
-export function Input({ value, onChange }: InputProps) {
-  return <input value={value} onChange={(e) => onChange(e.target.value)} />;
+export function Input({ value, onChange, ...props }: InputProps) {
+  return <input value={value} onChange={onChange} {...props} />;
 }
