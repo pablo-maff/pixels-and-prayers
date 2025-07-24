@@ -18,8 +18,14 @@ describe('Input', () => {
     expect(input).toHaveValue('Hello');
   });
 
-  it.skip('reflects user typing', () => {
-    // test implementation
+  it('reflects user typing', async () => {
+    const { getByRole } = render(<Input value={''} />);
+
+    const input = getByRole('textbox');
+
+    await user.type(input, 'Hello');
+
+    expect(input).toHaveValue('Hello');
   });
 
   it.skip('passes through any additional props to the input', () => {
