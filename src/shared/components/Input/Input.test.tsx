@@ -37,15 +37,19 @@ describe('Input', () => {
     expect(input).toHaveValue('Hello');
   });
 
-  it.skip('passes through any additional props to the input', () => {
-    // test implementation
+  it('passes through any additional props to the input', () => {
+    const { getByRole } = render(
+      <Input value={''} onChange={handleChange} type="email" disabled aria-label="peanuts" />,
+    );
+
+    const input = getByRole('textbox');
+
+    expect(input).toBeDisabled();
+    expect(input).toHaveAttribute('aria-label', 'peanuts');
+    expect(input).toHaveAttribute('type', 'email');
   });
 
   it.skip('notifies changes on every input update', () => {
-    // test implementation
-  });
-
-  it.skip('can be disabled', () => {
     // test implementation
   });
 });
