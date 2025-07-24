@@ -6,17 +6,23 @@ import { useState } from 'react';
 
 describe('Input', () => {
   let user: ReturnType<typeof userEvent.setup>;
-  let handleChange: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
     user = userEvent.setup();
-    handleChange = vi.fn();
   });
 
-  function TestInputWrapper() {
+  function TestInputWrapper({ onChange }: { onChange: (val: string) => void }) {
     const [value, setValue] = useState('');
 
-    return <Input value={value} onChange={(e) => setValue(e.target.value)} />;
+    return (
+      <Input
+        value={value}
+        onChange={(e) => {
+          setValue(e.target.value);
+          onChange(e.target.value);
+        }}
+      />
+    );
   }
 
   it('renders with the initial value', () => {
@@ -28,7 +34,7 @@ describe('Input', () => {
   });
 
   it('reflects user typing', async () => {
-    const { getByRole } = render(<TestInputWrapper />);
+    const { getByRole } = render(<TestInputWrapper onChange={() => {}} />);
 
     const input = getByRole('textbox');
 
@@ -38,9 +44,7 @@ describe('Input', () => {
   });
 
   it('passes through any additional props to the input', () => {
-    const { getByRole } = render(
-      <Input value={''} onChange={handleChange} type="email" disabled aria-label="peanuts" />,
-    );
+    const { getByRole } = render(<Input value={''} type="email" disabled aria-label="peanuts" />);
 
     const input = getByRole('textbox');
 
@@ -49,7 +53,15 @@ describe('Input', () => {
     expect(input).toHaveAttribute('type', 'email');
   });
 
-  it.skip('notifies changes on every input update', () => {
-    // test implementation
+  it('notifies changes on every input update', async () => {
+    const handleChange = vi.fn();
+
+    const { getByRole } = render(<TestInputWrapper onChange={handleChange} />);
+
+    const input = getByRole('textbox');
+
+    await user.type(input, 'Hello');
+
+    expect(handleChange).toHaveBeenCalledWith('Hello');
   });
 });
