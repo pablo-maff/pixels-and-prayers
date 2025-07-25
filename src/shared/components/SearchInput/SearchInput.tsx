@@ -2,6 +2,7 @@ import { Button } from '@components/Button/Button';
 import { useEffect, useState, type InputHTMLAttributes } from 'react';
 import { useDebounce } from 'shared/hooks/useDebounce/useDebounce';
 import styles from './SearchInput.module.scss';
+import { Input } from '@components/Input/Input';
 
 // * Only allowed to pass input attributes, and onChange is controlled locally here, so omit that
 interface SearchInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
@@ -22,7 +23,7 @@ export function SearchInput({ onSearch, debounce, ...inputProps }: SearchInputPr
 
   return (
     <div className={styles.container}>
-      <input
+      <Input
         type="text"
         aria-label="search"
         className={styles.input}
@@ -35,6 +36,7 @@ export function SearchInput({ onSearch, debounce, ...inputProps }: SearchInputPr
         }}
         {...inputProps}
       />
+
       {debounce ? null : (
         <Button disabled={!searchValue} onClick={() => onSearch(searchValue)}>
           <span>Search</span>
