@@ -422,19 +422,22 @@ describe('Autocomplete', () => {
       expect(options[0]).toHaveAttribute('aria-selected', 'false');
     });
 
-    it.skip('if input has been autocompleted with arrows, when left arrow is pressed inputs goes back to what the user typed', async () => {
-      const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
+    it('if input has been highlighted with arrows, when right arrow is pressed highlight is removed', async () => {
+      const { getByRole, getAllByRole } = render(
+        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
+      );
 
       const input = getByRole('textbox', { name: 'search' });
 
       await user.type(input, 'abc');
 
-      await user.keyboard('{ArrowDown}{ArrowLeft}');
+      await user.keyboard('{ArrowDown}{ArrowRight}');
+      const options = getAllByRole('option');
 
-      expect(input).toHaveValue(testItems[0]);
+      expect(options[0]).toHaveAttribute('aria-selected', 'false');
     });
 
-    it.skip('if input has been highlighted with arrows, when right arrow is pressed highlight is removed', async () => {
+    it.skip('if input has been autocompleted with arrows, when left arrow is pressed inputs goes back to what the user typed', async () => {
       const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
 
       const input = getByRole('textbox', { name: 'search' });
