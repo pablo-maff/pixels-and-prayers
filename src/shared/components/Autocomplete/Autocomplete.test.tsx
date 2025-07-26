@@ -143,8 +143,8 @@ describe('Autocomplete', () => {
     });
 
     it('when typing is resumed after closing the list with the Escape key', async () => {
-      const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
+      const { getByRole } = render(
+        <Autocomplete items={[testItems[0]]} onSelect={handleOnSelect} />,
       );
 
       const input = getByRole('textbox', { name: 'search' });
@@ -155,9 +155,9 @@ describe('Autocomplete', () => {
 
       await user.type(input, 'def');
 
-      const options = getAllByRole('option');
+      const option = getByRole('option');
 
-      expect(options).toBeVisible();
+      expect(option).toBeVisible();
     });
   });
 

@@ -51,11 +51,19 @@ export function Autocomplete({ items, onSelect }: AutocompleteProps) {
     }
   }
 
+  function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!isInputFocused) {
+      setIsInputFocused(true);
+    }
+
+    setInputValue(e.target.value);
+  }
+
   return (
     <div className={styles.container} role="combobox" aria-haspopup="listbox">
       <Input
         value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
+        onChange={handleOnChange}
         onFocus={() => setIsInputFocused(true)}
         onBlur={() => setIsInputFocused(false)}
         onKeyDown={handleOnKeyDown}
