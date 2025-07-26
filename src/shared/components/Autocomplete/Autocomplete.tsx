@@ -42,7 +42,13 @@ export function Autocomplete({ items, onSelect }: AutocompleteProps) {
           return;
         }
 
-        setHighlightedOption((prev) => prev - 1);
+        setHighlightedOption((prev) => {
+          const newHighlightedOption = prev - 1;
+
+          setInputValue(items[newHighlightedOption]);
+
+          return newHighlightedOption;
+        });
         break;
 
       case 'ArrowLeft':
