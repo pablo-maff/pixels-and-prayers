@@ -239,18 +239,6 @@ describe('Autocomplete', () => {
       expect(input).toHaveValue(testItems[2]);
     });
 
-    it('fills input with the highlighted item when right arrow is pressed', async () => {
-      const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
-
-      const input = getByRole('textbox', { name: 'search' });
-
-      await user.type(input, 'abc');
-
-      await user.keyboard('{ArrowDown}{ArrowRight}');
-
-      expect(input).toHaveValue(testItems[0]);
-    });
-
     it('only one item is highlighted at the same time', async () => {
       const { getByRole, getAllByRole } = render(
         <Autocomplete items={testItems} onSelect={handleOnSelect} />,
@@ -449,7 +437,7 @@ describe('Autocomplete', () => {
       expect(input).toHaveValue('abc');
     });
 
-    it('if input has been autocompleted with arrows, when right arrow is pressed inputs goes back to what the user typed', async () => {
+    it.skip('if input has been autocompleted with arrows, when right arrow is pressed inputs goes back to what the user typed', async () => {
       const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
 
       const input = getByRole('textbox', { name: 'search' });

@@ -55,8 +55,6 @@ export function Autocomplete({ items, onSelect }: AutocompleteProps) {
 
       case 'ArrowLeft':
         if (highlightedOption >= 0) {
-          console.log('inputBeforeAutocompleteRef.current', inputBeforeAutocompleteRef.current);
-
           setInputValue(inputBeforeAutocompleteRef.current);
           setHighlightedOption(-1);
         }
@@ -64,8 +62,8 @@ export function Autocomplete({ items, onSelect }: AutocompleteProps) {
 
       case 'ArrowRight':
         if (highlightedOption >= 0) {
+          setInputValue(inputBeforeAutocompleteRef.current);
           setHighlightedOption(-1);
-          setInputValue(items[highlightedOption]);
         }
         break;
 
