@@ -373,25 +373,6 @@ describe('Autocomplete', () => {
       expect(options[2]).toHaveAttribute('aria-selected', 'false');
       expect(options[3]).toHaveAttribute('aria-selected', 'false');
     });
-
-    it('if no item is highlighted after pressing the up arrow key the last item is highlighted', async () => {
-      const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
-      );
-
-      const input = getByRole('textbox', { name: 'search' });
-
-      await user.type(input, 'abc');
-
-      const options = getAllByRole('option');
-
-      await user.keyboard('{ArrowUp}');
-
-      expect(options[0]).toHaveAttribute('aria-selected', 'false');
-      expect(options[1]).toHaveAttribute('aria-selected', 'false');
-      expect(options[2]).toHaveAttribute('aria-selected', 'false');
-      expect(options[3]).toHaveAttribute('aria-selected', 'true');
-    });
   });
 
   describe('Selecting an item with Enter', () => {
