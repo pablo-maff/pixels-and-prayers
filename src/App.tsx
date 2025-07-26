@@ -15,7 +15,7 @@ function App() {
         <Input id="my-input" value={value} onChange={(e) => setValue(e.target.value)} />
       </div>
       <Counter />
-      <Autocomplete items={autoCompleteItems} onSelect={() => {}} />
+      <Autocomplete items={autoCompleteItems} onSelect={() => {}} label="Choose your cyclist" />
       <Button>
         <span>Click MEEE</span>
       </Button>

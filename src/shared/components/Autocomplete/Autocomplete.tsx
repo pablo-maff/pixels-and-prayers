@@ -5,9 +5,10 @@ import { Input } from '@components/Input/Input';
 interface AutocompleteProps {
   items: string[];
   onSelect: (selectedItem: string) => void;
+  label: string;
 }
 
-export function Autocomplete({ items, onSelect }: AutocompleteProps) {
+export function Autocomplete({ items, onSelect, label }: AutocompleteProps) {
   const [inputValue, setInputValue] = useState('');
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [highlightedOption, setHighlightedOption] = useState(-1);
@@ -94,13 +95,15 @@ export function Autocomplete({ items, onSelect }: AutocompleteProps) {
 
   return (
     <div className={styles.container} role="combobox" aria-haspopup="listbox">
+      <label htmlFor="autocomplete-input">{label}</label>
       <Input
+        id="autocomplete-input"
         value={inputValue}
         onChange={handleOnChange}
         onFocus={() => setIsInputFocused(true)}
         onBlur={() => setIsInputFocused(false)}
         onKeyDown={handleOnKeyDown}
-        aria-label="search"
+        aria-label="autocomplete"
         aria-autocomplete="list"
         aria-controls="autocomplete-list"
         aria-activedescendant={isItemHighlighted ? items[highlightedOption] : undefined}

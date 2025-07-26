@@ -72,10 +72,14 @@ describe('Autocomplete', () => {
   describe('Displaying the list', () => {
     it('when input is focused and an item is provided', async () => {
       const { getByRole } = render(
-        <Autocomplete items={[testItems[0]]} onSelect={handleOnSelect} />,
+        <Autocomplete
+          items={[testItems[0]]}
+          onSelect={handleOnSelect}
+          label={'Autocomplete label'}
+        />,
       );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -86,7 +90,11 @@ describe('Autocomplete', () => {
 
     it('is not possible if input is not focused even if an item is available', () => {
       const { queryByRole } = render(
-        <Autocomplete items={[testItems[0]]} onSelect={handleOnSelect} />,
+        <Autocomplete
+          items={[testItems[0]]}
+          onSelect={handleOnSelect}
+          label={'Autocomplete label'}
+        />,
       );
 
       const result = queryByRole('option');
@@ -96,10 +104,10 @@ describe('Autocomplete', () => {
 
     it('is not possible if input is focused and there are no items available', async () => {
       const { getByRole, queryByRole } = render(
-        <Autocomplete items={[]} onSelect={handleOnSelect} />,
+        <Autocomplete items={[]} onSelect={handleOnSelect} label={'Autocomplete label'} />,
       );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.click(input);
 
@@ -110,10 +118,14 @@ describe('Autocomplete', () => {
 
     it('if it has regained focus and an item is available', async () => {
       const { getByRole, queryByRole } = render(
-        <Autocomplete items={[testItems[0]]} onSelect={handleOnSelect} />,
+        <Autocomplete
+          items={[testItems[0]]}
+          onSelect={handleOnSelect}
+          label={'Autocomplete label'}
+        />,
       );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -130,10 +142,10 @@ describe('Autocomplete', () => {
 
     it('with multiple items when multiple items are provided', async () => {
       const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
       );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -144,10 +156,14 @@ describe('Autocomplete', () => {
 
     it('when typing is resumed after closing the list with the Escape key', async () => {
       const { getByRole } = render(
-        <Autocomplete items={[testItems[0]]} onSelect={handleOnSelect} />,
+        <Autocomplete
+          items={[testItems[0]]}
+          onSelect={handleOnSelect}
+          label={'Autocomplete label'}
+        />,
       );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -164,10 +180,10 @@ describe('Autocomplete', () => {
   describe('Selecting an item with the mouse', () => {
     it('selects the item when clicked', async () => {
       const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
       );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -181,10 +197,10 @@ describe('Autocomplete', () => {
       const handleOnSelect = vi.fn();
 
       const { getByRole, getAllByRole, queryAllByRole } = render(
-        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
       );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -201,10 +217,10 @@ describe('Autocomplete', () => {
   describe('Navigating items with the keyboard', () => {
     it('highlights the first item with down arrow', async () => {
       const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
       );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -216,9 +232,11 @@ describe('Autocomplete', () => {
     });
 
     it('fills input with the first item with down arrow', async () => {
-      const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
+      const { getByRole } = render(
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
+      );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -228,9 +246,11 @@ describe('Autocomplete', () => {
     });
 
     it('fills input with the nth item with down arrow', async () => {
-      const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
+      const { getByRole } = render(
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
+      );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -241,10 +261,10 @@ describe('Autocomplete', () => {
 
     it('only one item is highlighted at the same time', async () => {
       const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
       );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -258,10 +278,10 @@ describe('Autocomplete', () => {
 
     it('highlights the nth item with down arrow', async () => {
       const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
       );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -279,10 +299,10 @@ describe('Autocomplete', () => {
 
     it('highlights the last item with up arrow', async () => {
       const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
       );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -295,10 +315,10 @@ describe('Autocomplete', () => {
 
     it('highlights the nth item with up arrow', async () => {
       const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
       );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -315,9 +335,11 @@ describe('Autocomplete', () => {
     });
 
     it('fills input with the first item with up arrow', async () => {
-      const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
+      const { getByRole } = render(
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
+      );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -327,9 +349,11 @@ describe('Autocomplete', () => {
     });
 
     it('fills input with the nth item with up arrow', async () => {
-      const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
+      const { getByRole } = render(
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
+      );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -340,10 +364,10 @@ describe('Autocomplete', () => {
 
     it('after reaching the last option and pressing the down arrow highlight is removed', async () => {
       const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
       );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -359,10 +383,10 @@ describe('Autocomplete', () => {
 
     it('after reaching the last option and pressing the down arrow twice highlight goes back to the first option', async () => {
       const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
       );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -378,10 +402,10 @@ describe('Autocomplete', () => {
 
     it('after pressing the up arrow key on the first item highlight is removed', async () => {
       const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
       );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -397,10 +421,10 @@ describe('Autocomplete', () => {
 
     it('if input has been highlighted with arrows, when left arrow is pressed highlight is removed', async () => {
       const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
       );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -412,10 +436,10 @@ describe('Autocomplete', () => {
 
     it('if input has been highlighted with arrows, when right arrow is pressed highlight is removed', async () => {
       const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
       );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -426,9 +450,11 @@ describe('Autocomplete', () => {
     });
 
     it('if input has been autocompleted with arrows, when left arrow is pressed inputs goes back to what the user typed', async () => {
-      const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
+      const { getByRole } = render(
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
+      );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -438,9 +464,11 @@ describe('Autocomplete', () => {
     });
 
     it('if input has been autocompleted with arrows, when right arrow is pressed inputs goes back to what the user typed', async () => {
-      const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
+      const { getByRole } = render(
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
+      );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -455,9 +483,11 @@ describe('Autocomplete', () => {
 
   describe('Selecting an item with Enter', () => {
     it('selects the highlighted item with Enter', async () => {
-      const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
+      const { getByRole } = render(
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
+      );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -467,10 +497,10 @@ describe('Autocomplete', () => {
     });
     it('closes the dropdown after selection', async () => {
       const { getByRole, queryAllByRole } = render(
-        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
       );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -482,9 +512,11 @@ describe('Autocomplete', () => {
     });
 
     it('the selected item name fills the input', async () => {
-      const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
+      const { getByRole } = render(
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
+      );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -497,10 +529,10 @@ describe('Autocomplete', () => {
   describe('Pressing Escape', () => {
     it('closes the dropdown', async () => {
       const { getByRole, queryAllByRole } = render(
-        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
       );
 
-      const input = getByRole('textbox', { name: 'search' });
+      const input = getByRole('textbox', { name: 'autocomplete' });
 
       await user.type(input, 'abc');
 
@@ -514,7 +546,9 @@ describe('Autocomplete', () => {
 
   describe('Label', () => {
     it('should have a visible label', () => {
-      const { getByText } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
+      const { getByText } = render(
+        <Autocomplete items={testItems} onSelect={handleOnSelect} label={'Autocomplete label'} />,
+      );
 
       const label = getByText('Autocomplete label');
 
