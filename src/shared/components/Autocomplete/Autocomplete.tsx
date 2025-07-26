@@ -40,6 +40,10 @@ export function Autocomplete({ items, onSelect }: AutocompleteProps) {
       handleOnSelect(items[highlightedOption]);
       setIsInputFocused(false);
     }
+
+    if (e.key === 'Escape') {
+      setIsInputFocused(false);
+    }
   }
 
   return (
