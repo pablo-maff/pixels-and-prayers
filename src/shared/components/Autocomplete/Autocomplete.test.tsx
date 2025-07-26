@@ -215,7 +215,7 @@ describe('Autocomplete', () => {
       expect(options[0]).toHaveAttribute('aria-selected', 'true');
     });
 
-    it('fills input with the highlighted item with down arrow', async () => {
+    it('fills input with the first item with down arrow', async () => {
       const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
 
       const input = getByRole('textbox', { name: 'search' });
@@ -225,6 +225,18 @@ describe('Autocomplete', () => {
       await user.keyboard('{ArrowDown}');
 
       expect(input).toHaveValue(testItems[0]);
+    });
+
+    it('fills input with the nth item with down arrow', async () => {
+      const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'abc');
+
+      await user.keyboard('{ArrowDown}{ArrowDown}{ArrowDown}');
+
+      expect(input).toHaveValue(testItems[2]);
     });
 
     it('fills input with the highlighted item when left arrow is pressed', async () => {
@@ -268,7 +280,7 @@ describe('Autocomplete', () => {
       expect(options[1]).toHaveAttribute('aria-selected', 'false');
     });
 
-    it('highlights the n item with down arrow', async () => {
+    it('highlights the nth item with down arrow', async () => {
       const { getByRole, getAllByRole } = render(
         <Autocomplete items={testItems} onSelect={handleOnSelect} />,
       );
@@ -303,6 +315,27 @@ describe('Autocomplete', () => {
       await user.keyboard('{ArrowUp}');
 
       expect(options[3]).toHaveAttribute('aria-selected', 'true');
+    });
+
+    it('highlights the nth item with up arrow', async () => {
+      const { getByRole, getAllByRole } = render(
+        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
+      );
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'abc');
+
+      const options = getAllByRole('option');
+
+      await user.keyboard('{ArrowUp}{ArrowUp}{ArrowUp}');
+
+      expect(options[0]).toHaveAttribute('aria-selected', 'false');
+      expect(options[1]).toHaveAttribute('aria-selected', 'true');
+
+      expect(options[2]).toHaveAttribute('aria-selected', 'false');
+
+      expect(options[3]).toHaveAttribute('aria-selected', 'false');
     });
 
     it('fills input with the highlighted item with up arrow', async () => {
