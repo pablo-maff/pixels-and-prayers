@@ -306,6 +306,18 @@ describe('Autocomplete', () => {
       expect(options[1]).toHaveAttribute('aria-selected', 'false');
     });
 
+    it('fills input with the highlighted item with up arrow', async () => {
+      const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'abc');
+
+      await user.keyboard('{ArrowUp}');
+
+      expect(input).toHaveValue(testItems[3]);
+    });
+
     it('after reaching the last option and pressing the down arrow highlight is removed', async () => {
       const { getByRole, getAllByRole } = render(
         <Autocomplete items={testItems} onSelect={handleOnSelect} />,
