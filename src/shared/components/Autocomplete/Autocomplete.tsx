@@ -43,6 +43,12 @@ export function Autocomplete({ items, onSelect }: AutocompleteProps) {
         }
         break;
 
+      case 'ArrowRight':
+        if (highlightedOption >= 0) {
+          setInputValue(items[highlightedOption]);
+        }
+        break;
+
       case 'Enter':
         if (highlightedOption >= 0) {
           handleOnSelect(items[highlightedOption]);
