@@ -437,7 +437,7 @@ describe('Autocomplete', () => {
       expect(input).toHaveValue('abc');
     });
 
-    it.skip('if input has been autocompleted with arrows, when right arrow is pressed inputs goes back to what the user typed', async () => {
+    it('if input has been autocompleted with arrows, when right arrow is pressed inputs goes back to what the user typed', async () => {
       const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
 
       const input = getByRole('textbox', { name: 'search' });
