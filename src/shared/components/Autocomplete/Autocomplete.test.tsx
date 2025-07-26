@@ -371,7 +371,21 @@ describe('Autocomplete', () => {
   });
 
   describe('Pressing Escape closes the dropdown', () => {
-    it.skip('closes the dropdown when Escape is pressed', () => {});
+    it('closes the dropdown when Escape is pressed', async () => {
+      const { getByRole, queryAllByRole } = render(
+        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
+      );
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'abc');
+
+      await user.keyboard('{ArrowDown}{Escape}');
+
+      const options = queryAllByRole('option');
+
+      expect(options.length).toBe(0);
+    });
   });
 
   describe('Clicking outside closes the dropdown', () => {
