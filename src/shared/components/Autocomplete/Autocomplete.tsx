@@ -1,6 +1,6 @@
-import { SearchInput } from '@components/SearchInput/SearchInput';
 import { useState } from 'react';
 import styles from './Autocomplete.module.scss';
+import { Input } from '@components/Input/Input';
 
 interface AutocompleteProps {
   items: string[];
@@ -8,14 +8,15 @@ interface AutocompleteProps {
   onSelect: (selectedItem: string) => void;
 }
 
-export function Autocomplete({ items, onSearch, onSelect }: AutocompleteProps) {
-  const [filteredItems, setFilteredItems] = useState(items);
+// TODO: Debouncing should be controlled in the parent component, not in the children
+export function Autocomplete({ items, onSelect }: AutocompleteProps) {
+  const [inputValue, setInputValue] = useState('');
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [highlightedOption, setHighlightedOption] = useState(-1);
 
   function handleOnKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'ArrowDown') {
-      if (highlightedOption === filteredItems.length - 1) {
+      if (highlightedOption === items.length - 1) {
         setHighlightedOption(-1);
         return;
       }
@@ -24,7 +25,7 @@ export function Autocomplete({ items, onSearch, onSelect }: AutocompleteProps) {
     }
     if (e.key === 'ArrowUp') {
       if (highlightedOption === -1) {
-        setHighlightedOption(filteredItems.length - 1);
+        setHighlightedOption(items.length - 1);
         return;
       }
 
@@ -32,43 +33,27 @@ export function Autocomplete({ items, onSearch, onSelect }: AutocompleteProps) {
     }
 
     if (e.key === 'Enter' && highlightedOption >= 0) {
-      onSelect(filteredItems[highlightedOption]);
-      setFilteredItems(items);
+      onSelect(items[highlightedOption]);
       setIsInputFocused(false);
     }
   }
 
-  function handleOnSearch(searchValue: string) {
-    const results = onSearch(searchValue);
-
-    setFilteredItems((prev) => {
-      // TODO: Need to make SearchInput a fully controlled component to prevent this quirks
-      // ! Temp solution to prevent infinite loop due to different array reference coming from pure filter function
-      if (JSON.stringify(prev) === JSON.stringify(results)) {
-        return prev;
-      }
-      return results;
-    });
-    return searchValue;
-  }
-
   return (
     <div className={styles.container} role="combobox" aria-haspopup="listbox">
-      <SearchInput
-        debounce
-        onSearch={(searchValue) => handleOnSearch(searchValue)}
+      <Input
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
         onFocus={() => setIsInputFocused(true)}
         onBlur={() => setIsInputFocused(false)}
         onKeyDown={handleOnKeyDown}
+        aria-label="search"
         aria-autocomplete="list"
         aria-controls="autocomplete-list"
-        aria-activedescendant={
-          highlightedOption >= 0 ? filteredItems[highlightedOption] : undefined
-        }
+        aria-activedescendant={highlightedOption >= 0 ? items[highlightedOption] : undefined}
       />
-      {isInputFocused && filteredItems.length > 0 ? (
+      {isInputFocused && items.length > 0 ? (
         <ul className={styles.dropdown} role="listbox" id="autocomplete-list">
-          {filteredItems.map((item, i) => (
+          {items.map((item, i) => (
             <li
               className={styles.option}
               role="option"

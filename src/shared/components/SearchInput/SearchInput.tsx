@@ -10,6 +10,7 @@ interface SearchInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, '
   debounce?: boolean;
 }
 
+// ! Deprecated, we need controlled components, and coupling different modes should be avoided
 export function SearchInput({ onSearch, debounce, ...inputProps }: SearchInputProps) {
   const [searchValue, setSearchValue] = useState('');
 
