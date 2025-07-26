@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './Autocomplete.module.scss';
 import { Input } from '@components/Input/Input';
 
@@ -11,6 +11,12 @@ export function Autocomplete({ items, onSelect }: AutocompleteProps) {
   const [inputValue, setInputValue] = useState('');
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [highlightedOption, setHighlightedOption] = useState(-1);
+
+  useEffect(() => {
+    if (highlightedOption >= 0) {
+      setInputValue(items[highlightedOption]);
+    }
+  }, [highlightedOption, items]);
 
   function handleOnSelect(item: string) {
     setInputValue(item);
@@ -28,8 +34,6 @@ export function Autocomplete({ items, onSelect }: AutocompleteProps) {
         setHighlightedOption((prev) => {
           const newHighlightedOption = prev + 1;
 
-          setInputValue(items[newHighlightedOption]);
-
           return newHighlightedOption;
         });
 
@@ -38,14 +42,11 @@ export function Autocomplete({ items, onSelect }: AutocompleteProps) {
       case 'ArrowUp':
         if (highlightedOption === -1) {
           setHighlightedOption(items.length - 1);
-          setInputValue(items[items.length - 1]);
           return;
         }
 
         setHighlightedOption((prev) => {
           const newHighlightedOption = prev - 1;
-
-          setInputValue(items[newHighlightedOption]);
 
           return newHighlightedOption;
         });
