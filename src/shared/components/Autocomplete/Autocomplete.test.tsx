@@ -215,6 +215,18 @@ describe('Autocomplete', () => {
       expect(options[0]).toHaveAttribute('aria-selected', 'true');
     });
 
+    it('fills input with the highlighted item with down arrow', async () => {
+      const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'abc');
+
+      await user.keyboard('{ArrowDown}');
+
+      expect(input).toHaveValue(testItems[0]);
+    });
+
     it('fills input with the highlighted item when left arrow is pressed', async () => {
       const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
 
