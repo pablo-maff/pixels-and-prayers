@@ -7,7 +7,6 @@ interface AutocompleteProps {
   onSelect: (selectedItem: string) => void;
 }
 
-// TODO: Debouncing should be controlled in the parent component, not in the children
 export function Autocomplete({ items, onSelect }: AutocompleteProps) {
   const [inputValue, setInputValue] = useState('');
   const [isInputFocused, setIsInputFocused] = useState(false);

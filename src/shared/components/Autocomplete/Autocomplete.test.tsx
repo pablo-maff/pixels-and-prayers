@@ -53,7 +53,7 @@ Feature: Autocomplete rendering and interaction
     Then it becomes the highlighted item
 */
 
-import { findAllByRole, fireEvent, render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Autocomplete } from './Autocomplete';
 import userEvent from '@testing-library/user-event';
@@ -213,6 +213,18 @@ describe('Autocomplete', () => {
       await user.keyboard('{ArrowDown}');
 
       expect(options[0]).toHaveAttribute('aria-selected', 'true');
+    });
+
+    it('fills input with the highlighted item when left arrow is pressed', async () => {
+      const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'abc');
+
+      await user.keyboard('{ArrowDown}{ArrowLeft}');
+
+      expect(input).toHaveValue(testItems[0]);
     });
 
     it('only one item is highlighted at the same time', async () => {
