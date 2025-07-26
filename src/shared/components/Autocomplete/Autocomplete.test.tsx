@@ -338,7 +338,7 @@ describe('Autocomplete', () => {
       expect(options[3]).toHaveAttribute('aria-selected', 'false');
     });
 
-    it('fills input with the highlighted item with up arrow', async () => {
+    it('fills input with the first item with up arrow', async () => {
       const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
 
       const input = getByRole('textbox', { name: 'search' });
@@ -348,6 +348,18 @@ describe('Autocomplete', () => {
       await user.keyboard('{ArrowUp}');
 
       expect(input).toHaveValue(testItems[3]);
+    });
+
+    it('fills input with the nth item with up arrow', async () => {
+      const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'abc');
+
+      await user.keyboard('{ArrowUp}{ArrowUp}{ArrowUp}');
+
+      expect(input).toHaveValue(testItems[1]);
     });
 
     it('after reaching the last option and pressing the down arrow highlight is removed', async () => {
