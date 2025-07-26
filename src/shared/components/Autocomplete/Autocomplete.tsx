@@ -4,7 +4,6 @@ import { Input } from '@components/Input/Input';
 
 interface AutocompleteProps {
   items: string[];
-  onSearch: (searchValue: string) => string[];
   onSelect: (selectedItem: string) => void;
 }
 

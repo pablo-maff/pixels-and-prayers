@@ -60,21 +60,19 @@ import userEvent from '@testing-library/user-event';
 
 describe('Autocomplete', () => {
   let user: ReturnType<typeof userEvent.setup>;
-  let handleOnSearch: ReturnType<typeof vi.fn>;
   let handleOnSelect: ReturnType<typeof vi.fn>;
 
   const testItems = ['Tadej Pogačar', 'Jonas Vingegaard', 'Remco Evenepoel', 'Primož Roglič'];
 
   beforeEach(() => {
     user = userEvent.setup();
-    handleOnSearch = vi.fn();
     handleOnSelect = vi.fn();
   });
 
   describe('Displaying the list', () => {
     it('shows the dropdown when input is focused and an item is provided', async () => {
       const { getByRole } = render(
-        <Autocomplete items={[testItems[0]]} onSearch={handleOnSearch} onSelect={handleOnSelect} />,
+        <Autocomplete items={[testItems[0]]} onSelect={handleOnSelect} />,
       );
 
       const input = getByRole('textbox', { name: 'search' });
@@ -88,7 +86,7 @@ describe('Autocomplete', () => {
 
     it('does not show the dropdown if not focused even if an item is available', () => {
       const { queryByRole } = render(
-        <Autocomplete items={[testItems[0]]} onSearch={handleOnSearch} onSelect={handleOnSelect} />,
+        <Autocomplete items={[testItems[0]]} onSelect={handleOnSelect} />,
       );
 
       const result = queryByRole('option');
@@ -98,7 +96,7 @@ describe('Autocomplete', () => {
 
     it('does not show the dropdown if focused and there are no items available', async () => {
       const { getByRole, queryByRole } = render(
-        <Autocomplete items={[]} onSearch={handleOnSearch} onSelect={handleOnSelect} />,
+        <Autocomplete items={[]} onSelect={handleOnSelect} />,
       );
 
       const input = getByRole('textbox', { name: 'search' });
@@ -112,7 +110,7 @@ describe('Autocomplete', () => {
 
     it('does show the dropdown if it has regained focus and an item is available', async () => {
       const { getByRole, queryByRole } = render(
-        <Autocomplete items={[testItems[0]]} onSearch={handleOnSearch} onSelect={handleOnSelect} />,
+        <Autocomplete items={[testItems[0]]} onSelect={handleOnSelect} />,
       );
 
       const input = getByRole('textbox', { name: 'search' });
@@ -132,7 +130,7 @@ describe('Autocomplete', () => {
 
     it('shows the dropdown with multiple items when multiple items are provided', async () => {
       const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSearch={handleOnSearch} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
       );
 
       const input = getByRole('textbox', { name: 'search' });
@@ -148,7 +146,7 @@ describe('Autocomplete', () => {
   describe('Selecting an item with the mouse', () => {
     it('selects the item when clicked', async () => {
       const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSearch={handleOnSearch} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
       );
 
       const input = getByRole('textbox', { name: 'search' });
@@ -165,7 +163,7 @@ describe('Autocomplete', () => {
       const handleOnSelect = vi.fn();
 
       const { getByRole, getAllByRole, queryAllByRole } = render(
-        <Autocomplete items={testItems} onSearch={handleOnSearch} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
       );
 
       const input = getByRole('textbox', { name: 'search' });
@@ -185,7 +183,7 @@ describe('Autocomplete', () => {
   describe('Navigating items with the keyboard', () => {
     it('highlights the first item with down arrow', async () => {
       const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSearch={handleOnSearch} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
       );
 
       const input = getByRole('textbox', { name: 'search' });
@@ -201,7 +199,7 @@ describe('Autocomplete', () => {
 
     it('only one item is highlighted at the same time', async () => {
       const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSearch={handleOnSearch} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
       );
 
       const input = getByRole('textbox', { name: 'search' });
@@ -218,7 +216,7 @@ describe('Autocomplete', () => {
 
     it('highlights the n item with down arrow', async () => {
       const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSearch={handleOnSearch} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
       );
 
       const input = getByRole('textbox', { name: 'search' });
@@ -239,7 +237,7 @@ describe('Autocomplete', () => {
 
     it('highlights the previous item with up arrow', async () => {
       const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSearch={handleOnSearch} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
       );
 
       const input = getByRole('textbox', { name: 'search' });
@@ -256,7 +254,7 @@ describe('Autocomplete', () => {
 
     it('after reaching the last option and pressing the down arrow highlight is removed', async () => {
       const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSearch={handleOnSearch} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
       );
 
       const input = getByRole('textbox', { name: 'search' });
@@ -275,7 +273,7 @@ describe('Autocomplete', () => {
 
     it('after reaching the last option and pressing the down arrow twice highlight goes back to the first option', async () => {
       const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSearch={handleOnSearch} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
       );
 
       const input = getByRole('textbox', { name: 'search' });
@@ -294,7 +292,7 @@ describe('Autocomplete', () => {
 
     it('after pressing the up arrow key on the first item highlight is removed', async () => {
       const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSearch={handleOnSearch} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
       );
 
       const input = getByRole('textbox', { name: 'search' });
@@ -313,7 +311,7 @@ describe('Autocomplete', () => {
 
     it('if no item is highlighted after pressing the up arrow key the last item is highlighted', async () => {
       const { getByRole, getAllByRole } = render(
-        <Autocomplete items={testItems} onSearch={handleOnSearch} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
       );
 
       const input = getByRole('textbox', { name: 'search' });
@@ -333,9 +331,7 @@ describe('Autocomplete', () => {
 
   describe('Selecting an item with Enter', () => {
     it('selects the highlighted item with Enter', async () => {
-      const { getByRole } = render(
-        <Autocomplete items={testItems} onSearch={handleOnSearch} onSelect={handleOnSelect} />,
-      );
+      const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
 
       const input = getByRole('textbox', { name: 'search' });
 
@@ -347,7 +343,7 @@ describe('Autocomplete', () => {
     });
     it('closes the dropdown after selection', async () => {
       const { getByRole, queryAllByRole } = render(
-        <Autocomplete items={testItems} onSearch={handleOnSearch} onSelect={handleOnSelect} />,
+        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
       );
 
       const input = getByRole('textbox', { name: 'search' });
@@ -361,10 +357,8 @@ describe('Autocomplete', () => {
       expect(options.length).toBe(0);
     });
 
-    it.skip('the selected item name fills the input', async () => {
-      const { getByRole } = render(
-        <Autocomplete items={testItems} onSearch={handleOnSearch} onSelect={handleOnSelect} />,
-      );
+    it('the selected item name fills the input', async () => {
+      const { getByRole } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
 
       const input = getByRole('textbox', { name: 'search' });
 
