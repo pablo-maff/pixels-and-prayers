@@ -3,7 +3,6 @@ import { Button } from '@components/Button/Button';
 import { Counter } from '@components/Counter/Counter';
 import { Input } from '@components/Input/Input';
 import { useState } from 'react';
-import { searchString } from 'shared/utils/searchString';
 
 const autoCompleteItems = ['Tadej Pogačar', 'Jonas Vingegaard', 'Remco Evenepoel', 'Primož Roglič'];
 
@@ -16,11 +15,7 @@ function App() {
         <Input id="my-input" value={value} onChange={(e) => setValue(e.target.value)} />
       </div>
       <Counter />
-      <Autocomplete
-        items={autoCompleteItems}
-        onSearch={(query) => searchString(autoCompleteItems, query)}
-        onSelect={() => {}}
-      />
+      <Autocomplete items={autoCompleteItems} onSelect={() => {}} />
       <Button>
         <span>Click MEEE</span>
       </Button>

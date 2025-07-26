@@ -53,7 +53,7 @@ Feature: Autocomplete rendering and interaction
     Then it becomes the highlighted item
 */
 
-import { fireEvent, render } from '@testing-library/react';
+import { findAllByRole, fireEvent, render } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Autocomplete } from './Autocomplete';
 import userEvent from '@testing-library/user-event';
@@ -70,7 +70,7 @@ describe('Autocomplete', () => {
   });
 
   describe('Displaying the list', () => {
-    it('shows the dropdown when input is focused and an item is provided', async () => {
+    it('when input is focused and an item is provided', async () => {
       const { getByRole } = render(
         <Autocomplete items={[testItems[0]]} onSelect={handleOnSelect} />,
       );
@@ -84,7 +84,7 @@ describe('Autocomplete', () => {
       expect(result).toBeVisible();
     });
 
-    it('does not show the dropdown if not focused even if an item is available', () => {
+    it('is not possible if input is not focused even if an item is available', () => {
       const { queryByRole } = render(
         <Autocomplete items={[testItems[0]]} onSelect={handleOnSelect} />,
       );
@@ -94,7 +94,7 @@ describe('Autocomplete', () => {
       expect(result).toBeNull();
     });
 
-    it('does not show the dropdown if focused and there are no items available', async () => {
+    it('is not possible if input is focused and there are no items available', async () => {
       const { getByRole, queryByRole } = render(
         <Autocomplete items={[]} onSelect={handleOnSelect} />,
       );
@@ -108,7 +108,7 @@ describe('Autocomplete', () => {
       expect(result).toBeNull();
     });
 
-    it('does show the dropdown if it has regained focus and an item is available', async () => {
+    it('if it has regained focus and an item is available', async () => {
       const { getByRole, queryByRole } = render(
         <Autocomplete items={[testItems[0]]} onSelect={handleOnSelect} />,
       );
@@ -128,7 +128,7 @@ describe('Autocomplete', () => {
       expect(resultAfterLostFocus).toBeNull();
     });
 
-    it('shows the dropdown with multiple items when multiple items are provided', async () => {
+    it('with multiple items when multiple items are provided', async () => {
       const { getByRole, getAllByRole } = render(
         <Autocomplete items={testItems} onSelect={handleOnSelect} />,
       );
@@ -140,6 +140,24 @@ describe('Autocomplete', () => {
       const result = getAllByRole('option');
 
       expect(result.length).toEqual(testItems.length);
+    });
+
+    it('when typing is resumed after closing the list with the Escape key', async () => {
+      const { getByRole, getAllByRole } = render(
+        <Autocomplete items={testItems} onSelect={handleOnSelect} />,
+      );
+
+      const input = getByRole('textbox', { name: 'search' });
+
+      await user.type(input, 'abc');
+
+      await user.keyboard('{ArrowDown}{Escape}');
+
+      await user.type(input, 'def');
+
+      const options = getAllByRole('option');
+
+      expect(options).toBeVisible();
     });
   });
 
@@ -370,8 +388,8 @@ describe('Autocomplete', () => {
     });
   });
 
-  describe('Pressing Escape closes the dropdown', () => {
-    it('closes the dropdown when Escape is pressed', async () => {
+  describe('Pressing Escape', () => {
+    it('closes the dropdown', async () => {
       const { getByRole, queryAllByRole } = render(
         <Autocomplete items={testItems} onSelect={handleOnSelect} />,
       );
@@ -386,13 +404,5 @@ describe('Autocomplete', () => {
 
       expect(options.length).toBe(0);
     });
-  });
-
-  describe('Clicking outside closes the dropdown', () => {
-    it.skip('closes the dropdown when clicking outside the component', () => {});
-  });
-
-  describe('Highlight item on hover', () => {
-    it.skip('highlights the item when hovered with the mouse', () => {});
   });
 });
