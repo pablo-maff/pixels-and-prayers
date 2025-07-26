@@ -289,7 +289,7 @@ describe('Autocomplete', () => {
       expect(options[3]).toHaveAttribute('aria-selected', 'false');
     });
 
-    it('highlights the previous item with up arrow', async () => {
+    it('highlights the last item with up arrow', async () => {
       const { getByRole, getAllByRole } = render(
         <Autocomplete items={testItems} onSelect={handleOnSelect} />,
       );
@@ -300,10 +300,9 @@ describe('Autocomplete', () => {
 
       const options = getAllByRole('option');
 
-      await user.keyboard('{ArrowDown}{ArrowDown}{ArrowUp}');
+      await user.keyboard('{ArrowUp}');
 
-      expect(options[0]).toHaveAttribute('aria-selected', 'true');
-      expect(options[1]).toHaveAttribute('aria-selected', 'false');
+      expect(options[3]).toHaveAttribute('aria-selected', 'true');
     });
 
     it('fills input with the highlighted item with up arrow', async () => {
