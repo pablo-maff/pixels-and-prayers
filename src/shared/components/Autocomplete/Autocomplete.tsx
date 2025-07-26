@@ -13,11 +13,13 @@ export function Autocomplete({ items, onSelect }: AutocompleteProps) {
   const [highlightedOption, setHighlightedOption] = useState(-1);
   const inputBeforeAutocompleteRef = useRef('');
 
+  const isItemHighlighted = highlightedOption >= 0;
+
   useEffect(() => {
-    if (highlightedOption >= 0) {
+    if (isItemHighlighted) {
       setInputValue(items[highlightedOption]);
     }
-  }, [highlightedOption, items]);
+  }, [highlightedOption, isItemHighlighted, items]);
 
   function handleOnSelect(item: string) {
     setInputValue(item);
@@ -25,58 +27,58 @@ export function Autocomplete({ items, onSelect }: AutocompleteProps) {
   }
 
   function handleOnKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    switch (e.key) {
-      case 'ArrowDown':
-        if (highlightedOption === items.length - 1) {
-          setHighlightedOption(-1);
-          return;
-        }
+    const handlers: Record<string, () => void> = {
+      ArrowDown: handleArrowDown,
+      ArrowUp: handleArrowUp,
+      ArrowLeft: handleSideArrowKeys,
+      ArrowRight: handleSideArrowKeys,
+      Enter: handleEnterKey,
+      Escape: () => setIsInputFocused(false),
+    };
 
-        setHighlightedOption((prev) => {
-          const newHighlightedOption = prev + 1;
+    const handler = handlers[e.key];
+    if (handler) {
+      handler();
+    }
+  }
 
-          return newHighlightedOption;
-        });
+  function handleArrowDown() {
+    if (highlightedOption === items.length - 1) {
+      setHighlightedOption(-1);
+      return;
+    }
 
-        break;
+    setHighlightedOption((prev) => {
+      const newHighlightedOption = prev + 1;
 
-      case 'ArrowUp':
-        if (highlightedOption === -1) {
-          setHighlightedOption(items.length - 1);
-          return;
-        }
+      return newHighlightedOption;
+    });
+  }
 
-        setHighlightedOption((prev) => {
-          const newHighlightedOption = prev - 1;
+  function handleArrowUp() {
+    if (highlightedOption === -1) {
+      setHighlightedOption(items.length - 1);
+      return;
+    }
 
-          return newHighlightedOption;
-        });
-        break;
+    setHighlightedOption((prev) => {
+      const newHighlightedOption = prev - 1;
 
-      case 'ArrowLeft':
-        if (highlightedOption >= 0) {
-          setInputValue(inputBeforeAutocompleteRef.current);
-          setHighlightedOption(-1);
-        }
-        break;
+      return newHighlightedOption;
+    });
+  }
 
-      case 'ArrowRight':
-        if (highlightedOption >= 0) {
-          setInputValue(inputBeforeAutocompleteRef.current);
-          setHighlightedOption(-1);
-        }
-        break;
+  function handleSideArrowKeys() {
+    if (isItemHighlighted) {
+      setInputValue(inputBeforeAutocompleteRef.current);
+      setHighlightedOption(-1);
+    }
+  }
 
-      case 'Enter':
-        if (highlightedOption >= 0) {
-          handleOnSelect(items[highlightedOption]);
-          setIsInputFocused(false);
-        }
-        break;
-
-      case 'Escape':
-        setIsInputFocused(false);
-        break;
+  function handleEnterKey() {
+    if (isItemHighlighted) {
+      handleOnSelect(items[highlightedOption]);
+      setIsInputFocused(false);
     }
   }
 
@@ -101,7 +103,7 @@ export function Autocomplete({ items, onSelect }: AutocompleteProps) {
         aria-label="search"
         aria-autocomplete="list"
         aria-controls="autocomplete-list"
-        aria-activedescendant={highlightedOption >= 0 ? items[highlightedOption] : undefined}
+        aria-activedescendant={isItemHighlighted ? items[highlightedOption] : undefined}
       />
       {isInputFocused && items.length > 0 ? (
         <ul className={styles.dropdown} role="listbox" id="autocomplete-list">

@@ -511,4 +511,14 @@ describe('Autocomplete', () => {
       expect(options.length).toBe(0);
     });
   });
+
+  describe('Label', () => {
+    it('should have a visible label', () => {
+      const { getByText } = render(<Autocomplete items={testItems} onSelect={handleOnSelect} />);
+
+      const label = getByText('Autocomplete label');
+
+      expect(label).toBeInTheDocument();
+    });
+  });
 });
