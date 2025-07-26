@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './Autocomplete.module.scss';
 import { Input } from '@components/Input/Input';
 
@@ -11,6 +11,7 @@ export function Autocomplete({ items, onSelect }: AutocompleteProps) {
   const [inputValue, setInputValue] = useState('');
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [highlightedOption, setHighlightedOption] = useState(-1);
+  const inputBeforeAutocompleteRef = useRef('');
 
   useEffect(() => {
     if (highlightedOption >= 0) {
@@ -54,8 +55,10 @@ export function Autocomplete({ items, onSelect }: AutocompleteProps) {
 
       case 'ArrowLeft':
         if (highlightedOption >= 0) {
+          console.log('inputBeforeAutocompleteRef.current', inputBeforeAutocompleteRef.current);
+
+          setInputValue(inputBeforeAutocompleteRef.current);
           setHighlightedOption(-1);
-          setInputValue(items[highlightedOption]);
         }
         break;
 
@@ -83,6 +86,8 @@ export function Autocomplete({ items, onSelect }: AutocompleteProps) {
     if (!isInputFocused) {
       setIsInputFocused(true);
     }
+
+    inputBeforeAutocompleteRef.current = e.target.value;
 
     setInputValue(e.target.value);
   }
