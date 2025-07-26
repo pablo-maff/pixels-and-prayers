@@ -448,6 +448,9 @@ describe('Autocomplete', () => {
 
       expect(input).toHaveValue('abc');
     });
+
+    // TODO: restore caret position to end if input is already focused (ArrowLeft case)
+    // tricky timing issue — revisit when stable
   });
 
   describe('Selecting an item with Enter', () => {
