@@ -19,30 +19,35 @@ export function Autocomplete({ items, onSelect }: AutocompleteProps) {
   }
 
   function handleOnKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === 'ArrowDown') {
-      if (highlightedOption === items.length - 1) {
-        setHighlightedOption(-1);
-        return;
-      }
+    switch (e.key) {
+      case 'ArrowDown':
+        if (highlightedOption === items.length - 1) {
+          setHighlightedOption(-1);
+          return;
+        }
 
-      setHighlightedOption((prev) => prev + 1);
-    }
-    if (e.key === 'ArrowUp') {
-      if (highlightedOption === -1) {
-        setHighlightedOption(items.length - 1);
-        return;
-      }
+        setHighlightedOption((prev) => prev + 1);
+        break;
 
-      setHighlightedOption((prev) => prev - 1);
-    }
+      case 'ArrowUp':
+        if (highlightedOption === -1) {
+          setHighlightedOption(items.length - 1);
+          return;
+        }
 
-    if (e.key === 'Enter' && highlightedOption >= 0) {
-      handleOnSelect(items[highlightedOption]);
-      setIsInputFocused(false);
-    }
+        setHighlightedOption((prev) => prev - 1);
+        break;
 
-    if (e.key === 'Escape') {
-      setIsInputFocused(false);
+      case 'Enter':
+        if (highlightedOption >= 0) {
+          handleOnSelect(items[highlightedOption]);
+          setIsInputFocused(false);
+        }
+        break;
+
+      case 'Escape':
+        setIsInputFocused(false);
+        break;
     }
   }
 
