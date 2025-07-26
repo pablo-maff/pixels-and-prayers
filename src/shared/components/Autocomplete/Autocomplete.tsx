@@ -37,6 +37,12 @@ export function Autocomplete({ items, onSelect }: AutocompleteProps) {
         setHighlightedOption((prev) => prev - 1);
         break;
 
+      case 'ArrowLeft':
+        if (highlightedOption >= 0) {
+          setInputValue(items[highlightedOption]);
+        }
+        break;
+
       case 'Enter':
         if (highlightedOption >= 0) {
           handleOnSelect(items[highlightedOption]);
