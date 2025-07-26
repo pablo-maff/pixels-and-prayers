@@ -13,6 +13,11 @@ export function Autocomplete({ items, onSelect }: AutocompleteProps) {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [highlightedOption, setHighlightedOption] = useState(-1);
 
+  function handleOnSelect(item: string) {
+    setInputValue(item);
+    onSelect(item);
+  }
+
   function handleOnKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'ArrowDown') {
       if (highlightedOption === items.length - 1) {
@@ -32,7 +37,7 @@ export function Autocomplete({ items, onSelect }: AutocompleteProps) {
     }
 
     if (e.key === 'Enter' && highlightedOption >= 0) {
-      onSelect(items[highlightedOption]);
+      handleOnSelect(items[highlightedOption]);
       setIsInputFocused(false);
     }
   }
@@ -59,7 +64,7 @@ export function Autocomplete({ items, onSelect }: AutocompleteProps) {
               aria-selected={i === highlightedOption}
               id={item}
               key={item}
-              onMouseDown={() => onSelect(item)}
+              onMouseDown={() => handleOnSelect(item)}
             >
               {item}
             </li>
