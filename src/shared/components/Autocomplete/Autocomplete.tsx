@@ -38,6 +38,7 @@ export function Autocomplete({ items, onSelect }: AutocompleteProps) {
       case 'ArrowUp':
         if (highlightedOption === -1) {
           setHighlightedOption(items.length - 1);
+          setInputValue(items[items.length - 1]);
           return;
         }
 
