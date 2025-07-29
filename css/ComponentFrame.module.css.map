@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/shared/components/ComponentFrame/ComponentFrame.module.scss","ComponentFrame.module.css"],"names":[],"mappings":"AAAA;EACE,aAAA;EACA,mBAAA;EACA,uBAAA;EACA,yBAAA;EACA,yBAAA;EACA,aAAA;EACA,mBAAA;EACA,yCAAA;EACA,WAAA;EACA,YAAA;EACA,SAAA;ACCF;ADCE;EACE,WAAA;ACCJ","file":"ComponentFrame.module.css"}

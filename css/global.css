@@ -1,0 +1,11 @@
+.wrapper {
+  margin: 5rem;
+  border: 1px solid grey;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 0.375rem;
+  height: 800px;
+}/*# sourceMappingURL=global.css.map */
