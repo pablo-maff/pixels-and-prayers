@@ -11,12 +11,15 @@ function App() {
   const [value, setValue] = useState('');
   return (
     <div className="wrapper">
+      <ComponentFrame className="col-full row-span-3">
+        <Autocomplete items={autoCompleteItems} onSelect={() => {}} label="Choose your cyclist" />
+      </ComponentFrame>
+      
       <ComponentFrame title="INPUTS">
         <div>
           <label htmlFor="my-input">Test input</label>
           <Input id="my-input" value={value} onChange={(e) => setValue(e.target.value)} />
         </div>
-        <Autocomplete items={autoCompleteItems} onSelect={() => {}} label="Choose your cyclist" />
       </ComponentFrame>
 
       <ComponentFrame title="COUNTER">
