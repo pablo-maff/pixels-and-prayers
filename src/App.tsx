@@ -3,6 +3,7 @@ import { Button } from '@components/Button/Button';
 import ComponentFrame from '@components/ComponentFrame/Componentframe';
 import { Counter } from '@components/Counter/Counter';
 import { Input } from '@components/Input/Input';
+import Slider from '@components/Slider/Slider';
 import { useState } from 'react';
 
 const autoCompleteItems = ['Tadej Pogačar', 'Jonas Vingegaard', 'Remco Evenepoel', 'Primož Roglič'];
@@ -14,7 +15,7 @@ function App() {
       <ComponentFrame className="col-full row-span-3">
         <Autocomplete items={autoCompleteItems} onSelect={() => {}} label="Choose your cyclist" />
       </ComponentFrame>
-      
+
       <ComponentFrame title="INPUTS">
         <div>
           <label htmlFor="my-input">Test input</label>
@@ -30,6 +31,9 @@ function App() {
         <Button>
           <span>Click MEEE</span>
         </Button>
+      </ComponentFrame>
+      <ComponentFrame title="SLIDERS">
+        <Slider min={0} max={100} step={5} />
       </ComponentFrame>
     </div>
   );
