@@ -4,6 +4,7 @@ import ComponentFrame from '@components/ComponentFrame/Componentframe';
 import { Counter } from '@components/Counter/Counter';
 import { Input } from '@components/Input/Input';
 import Slider from '@components/Slider/Slider';
+import SliderFlex from '@components/Slider/SliderFlex';
 import { useState } from 'react';
 
 const autoCompleteItems = ['Tadej Pogačar', 'Jonas Vingegaard', 'Remco Evenepoel', 'Primož Roglič'];
@@ -34,6 +35,7 @@ function App() {
       </ComponentFrame>
       <ComponentFrame title="SLIDERS">
         <Slider min={0} max={100} step={5} />
+        <SliderFlex/>
       </ComponentFrame>
     </div>
   );

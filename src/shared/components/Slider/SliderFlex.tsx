@@ -6,6 +6,7 @@ interface SliderProps {
   max?: number;
   step?: number;
   onChange?: (value: number) => void;
+  value?: number;
 }
 
 export default function Slider({
@@ -13,15 +14,22 @@ export default function Slider({
   max = 100,
   step = 1,
   onChange,
+  value: controlledValue,
 }: SliderProps) {
-  const [value, setValue] = useState(min);
-  const percentage = ((value - min) / (max - min)) * 100;
+  
+  const [internalValue, setInternalValue] = useState(min);
+
+  const isControlled = controlledValue !== undefined;
+  const value = isControlled ? controlledValue : internalValue;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(e.target.value);
-    setValue(newValue);
+    if (!isControlled) setInternalValue(newValue);
     onChange?.(newValue);
   };
+
+  const leftGrow = value - min;
+  const rightGrow = max - value;
 
   return (
     <div className={style.custom_slider}>
@@ -34,10 +42,11 @@ export default function Slider({
         onChange={handleChange}
         className={style.slider_input}
       />
-      <div className={style.track} style={{backgroundColor: "#cecece"}}>
-        <div className={style.filled} style={{ width: `${percentage}%` }} />
+      <div className={style.track}>
+        <div className={style.filled} style={{ flexGrow: leftGrow }} />
+        <div className={style.remaining} style={{ flexGrow: rightGrow }} />
       </div>
-      <p style={{margin: "0 auto"}}>{value}</p>
+       <p style={{margin: "0 auto"}}>{value}</p>
     </div>
   );
 }
