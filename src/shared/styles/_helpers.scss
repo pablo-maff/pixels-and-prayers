@@ -1,22 +1,29 @@
 @use './variables' as *;
+@use './breakpoints' as *;
 
 .wrapper {
-  margin: 5rem;
   border: 1px solid grey;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: repeat(1, 1fr);
   gap: 2rem;
   padding: 3rem;
   border-radius: $radius;
-  height: 800px;
+  padding: 1rem;
+  @include lg {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include xl {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @include xl-2 {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
-
 
 /* Helper classes - grid layout - children */
 
-.row-span-3 {
-  grid-row: span 3;
+.row-span {
+  grid-row: span 12;
 }
 
 .col-full {

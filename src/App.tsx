@@ -13,7 +13,7 @@ function App() {
   const [value, setValue] = useState('');
   return (
     <div className="wrapper">
-      <ComponentFrame className="col-full row-span-3">
+      <ComponentFrame className="col-full row-span">
         <Autocomplete items={autoCompleteItems} onSelect={() => {}} label="Choose your cyclist" />
       </ComponentFrame>
 
@@ -34,7 +34,9 @@ function App() {
         </Button>
       </ComponentFrame>
       <ComponentFrame title="SLIDERS">
+        <h5>Dynamic width fill</h5>
         <Slider min={0} max={100} step={5} />
+        <h5>Flex Grow fill</h5>
         <SliderFlex/>
       </ComponentFrame>
     </div>
