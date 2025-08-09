@@ -3,6 +3,8 @@ import { Button } from '@components/Button/Button';
 import ComponentFrame from '@components/ComponentFrame/Componentframe';
 import { Counter } from '@components/Counter/Counter';
 import { Input } from '@components/Input/Input';
+import Slider from '@components/Slider/Slider';
+import SliderFlex from '@components/Slider/SliderFlex';
 import { useState } from 'react';
 
 const autoCompleteItems = ['Tadej Pogačar', 'Jonas Vingegaard', 'Remco Evenepoel', 'Primož Roglič'];
@@ -11,12 +13,15 @@ function App() {
   const [value, setValue] = useState('');
   return (
     <div className="wrapper">
+      <ComponentFrame className="col-full row-span">
+        <Autocomplete items={autoCompleteItems} onSelect={() => {}} label="Choose your cyclist" />
+      </ComponentFrame>
+
       <ComponentFrame title="INPUTS">
         <div>
           <label htmlFor="my-input">Test input</label>
           <Input id="my-input" value={value} onChange={(e) => setValue(e.target.value)} />
         </div>
-        <Autocomplete items={autoCompleteItems} onSelect={() => {}} label="Choose your cyclist" />
       </ComponentFrame>
 
       <ComponentFrame title="COUNTER">
@@ -27,6 +32,12 @@ function App() {
         <Button>
           <span>Click MEEE</span>
         </Button>
+      </ComponentFrame>
+      <ComponentFrame title="SLIDERS">
+        <h5>Dynamic width fill</h5>
+        <Slider min={0} max={100} step={5} />
+        <h5>Flex Grow fill</h5>
+        <SliderFlex/>
       </ComponentFrame>
     </div>
   );
