@@ -15,6 +15,17 @@ export default function Slider({ min, max, step, value, onChange }: SliderProps)
     onChange?.(newValue);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    let newValue = value;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+      newValue = Math.min(value + step, max);
+      onChange?.(newValue);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+      newValue = Math.max(value - step, min);
+      onChange?.(newValue);
+    }
+  };
+
   return (
     <div className={style.custom_slider}>
       <input
@@ -24,6 +35,7 @@ export default function Slider({ min, max, step, value, onChange }: SliderProps)
         step={step}
         value={value}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
         className={style.slider_input}
       />
       <div className={style.track}>
