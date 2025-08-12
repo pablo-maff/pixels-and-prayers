@@ -11,6 +11,7 @@ const autoCompleteItems = ['Tadej Pogačar', 'Jonas Vingegaard', 'Remco Evenepoe
 
 function App() {
   const [value, setValue] = useState('');
+  const [sliderValue, setSliderValue] = useState(0);
   return (
     <div className="wrapper">
       <ComponentFrame className="col-full row-span">
@@ -35,7 +36,7 @@ function App() {
       </ComponentFrame>
       <ComponentFrame title="SLIDERS">
         <h5>Dynamic width fill</h5>
-        <Slider min={0} max={100} step={5} />
+        <Slider min={0} max={100} step={5} value={sliderValue} onChange={setSliderValue}/>
         <h5>Flex Grow fill</h5>
         <SliderFlex/>
       </ComponentFrame>

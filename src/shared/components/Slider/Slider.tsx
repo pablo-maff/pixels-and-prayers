@@ -1,25 +1,17 @@
-import { useState } from 'react';
 import style from './Slider.module.scss';
-
 interface SliderProps {
-  min?: number;
-  max?: number;
-  step?: number;
-  onChange?: (value: number) => void;
+  min: number;
+  max: number;
+  step: number;
+  value: number;
+  onChange: (value: number) => void;
 }
 
-export default function Slider({
-  min = 0,
-  max = 100,
-  step = 1,
-  onChange,
-}: SliderProps) {
-  const [value, setValue] = useState(min);
+export default function Slider({ min, max, step, value, onChange }: SliderProps) {
   const percentage = ((value - min) / (max - min)) * 100;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(e.target.value);
-    setValue(newValue);
     onChange?.(newValue);
   };
 
@@ -34,10 +26,10 @@ export default function Slider({
         onChange={handleChange}
         className={style.slider_input}
       />
-      <div className={style.track} style={{backgroundColor: "#cecece"}}>
+      <div className={style.track}>
         <div className={style.filled} style={{ width: `${percentage}%` }} />
       </div>
-      <p style={{margin: "0 auto"}}>{value}</p>
+      <p style={{ margin: '0 auto' }}>{value}</p>
     </div>
   );
 }
