@@ -22,7 +22,11 @@ describe('Slider Component', () => {
   };
 
   beforeEach(() => {
-    mockOnChange.mockClear();
+      let mockOnChange: ReturnType<typeof vi.fn>;
+
+      beforeEach(() => {
+        mockOnChange = vi.fn();
+      });
   });
 
   it('renders correctly and reflects initial value', () => {
