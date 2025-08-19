@@ -12,26 +12,23 @@ import { vi, it, describe, expect, beforeEach } from 'vitest';
 checks for invalid boundary values. Y
 */
 describe('Slider Component', () => {
-  const mockOnChange = vi.fn();
+  let mockOnChange: ReturnType<typeof vi.fn>;
   const defaultProps = {
     min: 0,
     max: 100,
     step: 5,
     value: 50,
-    onChange: mockOnChange,
+    onChange: () => {},
   };
 
   beforeEach(() => {
-      let mockOnChange: ReturnType<typeof vi.fn>;
-
-      beforeEach(() => {
-        mockOnChange = vi.fn();
-      });
+    mockOnChange = vi.fn();
+    defaultProps.onChange = mockOnChange;
   });
 
   it('renders correctly and reflects initial value', () => {
     render(<Slider {...defaultProps} />);
-    const slider = screen.getByRole('slider') as HTMLInputElement;
+    const slider = screen.getByRole('slider');
 
     expect(slider).toBeInTheDocument();
     expect(slider).toHaveValue('50');
@@ -43,7 +40,7 @@ describe('Slider Component', () => {
 
   it('calls onChange with the correct new value when moved', () => {
     render(<Slider {...defaultProps} />);
-    const slider = screen.getByRole('slider') as HTMLInputElement;
+    const slider = screen.getByRole('slider');
 
     fireEvent.change(slider, { target: { value: '75' } });
     expect(mockOnChange).toHaveBeenCalledWith(75);
@@ -52,38 +49,60 @@ describe('Slider Component', () => {
     expect(mockOnChange).toHaveBeenCalledWith(23);
   });
 
-  it('respects min and max boundaries', () => {
+  it('respects min boundaries', () => {
     render(<Slider {...defaultProps} />);
-    const slider = screen.getByRole('slider') as HTMLInputElement;
+    const slider = screen.getByRole('slider');
 
     fireEvent.change(slider, { target: { value: '-10' } });
     expect(mockOnChange).toHaveBeenCalledWith(0);
+  });
+
+  it('respects max boundaries', () => {
+    render(<Slider {...defaultProps} />);
+    const slider = screen.getByRole('slider');
 
     fireEvent.change(slider, { target: { value: '150' } });
     expect(mockOnChange).toHaveBeenCalledWith(100);
   });
 
-  it('handles keyboard arrow key presses correctly (controlled)', () => {
-    let sliderValue = 50;
+  it('handles ArrowRight key press correctly (controlled)', () => {
+    let value = 50;
     const handleChange = vi.fn((newVal) => {
-      sliderValue = newVal;
+      value = newVal;
+      rerender(<Slider value={value} onChange={handleChange} min={0} max={100} step={5} />);
     });
 
-    const { rerender } = render(
-      <Slider value={sliderValue} onChange={handleChange} min={0} max={100} step={5} />,
+    const { getByRole, rerender } = render(
+      <Slider value={value} onChange={handleChange} min={0} max={100} step={5} />,
     );
-    const slider = screen.getByRole('slider') as HTMLInputElement;
 
+    const slider = getByRole('slider');
     slider.focus();
+
     fireEvent.keyDown(slider, { key: 'ArrowRight' });
 
-    expect(handleChange).toHaveBeenLastCalledWith(55);
-    rerender(<Slider value={sliderValue} onChange={handleChange} min={0} max={100} step={5} />);
+    expect(handleChange).toHaveBeenCalledWith(55);
     expect(slider).toHaveValue('55');
+  });
+
+  it('handles ArrowLeft key press correctly (controlled)', () => {
+    let value = 50;
+    const handleChange = vi.fn((newVal) => {
+      value = newVal;
+      rerender(<Slider value={value} onChange={handleChange} min={0} max={100} step={5} />);
+    });
+
+    const { getByRole, rerender } = render(
+      <Slider value={value} onChange={handleChange} min={0} max={100} step={5} />,
+    );
+
+    const slider = getByRole('slider');
+    slider.focus();
+
     fireEvent.keyDown(slider, { key: 'ArrowLeft' });
-    expect(handleChange).toHaveBeenLastCalledWith(50);
-    rerender(<Slider value={sliderValue} onChange={handleChange} min={0} max={100} step={5} />);
-    expect(slider).toHaveValue('50');
+
+    expect(handleChange).toHaveBeenCalledWith(45);
+    expect(slider).toHaveValue('45');
   });
 
   //INTEGRATION TEST
@@ -100,7 +119,7 @@ describe('Slider Component', () => {
       </>,
     );
 
-    const sliders = screen.getAllByRole('slider') as HTMLInputElement[];
+    const sliders = screen.getAllByRole('slider');
     const slider1 = sliders[0];
     const slider2 = sliders[1];
 
