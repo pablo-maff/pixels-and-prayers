@@ -26,6 +26,15 @@ export default function Slider({ min, max, step, value, onChange }: SliderProps)
     }
   };
 
+   type StyleWithCustomProperty = React.CSSProperties & {
+    '--filled-width': string;
+  };
+
+    const dynamicWidth: StyleWithCustomProperty = {
+    '--filled-width': `${percentage}%`
+  };
+  
+
   return (
     <div className={style.custom_slider}>
       <input
@@ -39,9 +48,9 @@ export default function Slider({ min, max, step, value, onChange }: SliderProps)
         className={style.slider_input}
       />
       <div className={style.track}>
-        <div className={style.filled} style={{ width: `${percentage}%` }} />
+        <div className={style.filled} style={dynamicWidth} />
       </div>
-      <p style={{ margin: '0 auto' }}>{value}</p>
+      <p>{value}</p>
     </div>
   );
 }

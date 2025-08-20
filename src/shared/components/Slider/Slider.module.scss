@@ -3,7 +3,11 @@
   flex-direction: column;
   width: 100%;
   position: relative;
+  p{
+     margin: 0 auto;
+  }
 }
+
 
 .slider_input {
   appearance: none;
@@ -43,6 +47,7 @@
 
 .filled {
   background: #53d3cc;
+  width: var(--filled-width);
 }
 
 .remaining {
