@@ -10,14 +10,14 @@ You’ll find a mix of components, utilities, and patterns here: some are just i
 
 This project uses:
 
-- **Vite** – for ultra-fast dev server and optimized builds  
-- **React 19** – with the latest features and hooks  
-- **TypeScript** – strict typing for better DX and maintainability  
-- **SCSS Modules** – for locally scoped, modular styles  
-- **Storybook** – to document and test components in isolation  
-- **Vitest + React Testing Library** – for fast, modern unit testing  
-- **ESLint (Flat config)** – for code quality with stylistic consistency  
-- **clsx** – for conditional class name handling  
+- **Vite** – for ultra-fast dev server and optimized builds
+- **React 19** – with the latest features and hooks
+- **TypeScript** – strict typing for better DX and maintainability
+- **SCSS Modules** – for locally scoped, modular styles
+- **Storybook** – to document and test components in isolation
+- **Vitest + React Testing Library** – for fast, modern unit testing
+- **ESLint (Flat config)** – for code quality with stylistic consistency
+- **clsx** – for conditional class name handling
 
 > Node.js will be added later to support full-stack features and end-to-end development.
 
@@ -29,10 +29,10 @@ So far, the project focuses on **isolated, reusable UI components**, each built 
 
 Each component lives in its own folder and includes:
 
-- `Component.tsx` – core logic  
-- `Component.module.scss` – styles scoped via SCSS Modules  
-- `Component.test.tsx` – unit tests with Vitest + RTL  
-- `Component.stories.tsx` – Storybook stories for documentation  
+- `Component.tsx` – core logic
+- `Component.module.scss` – styles scoped via SCSS Modules
+- `Component.test.tsx` – unit tests with Vitest + RTL
+- `Component.stories.tsx` – Storybook stories for documentation
 
 Global structure:
 
@@ -59,15 +59,15 @@ I usually start from an idea, a small challenge, or simply the desire to showcas
 
 While I lead the design and development, I use **ChatGPT as a support tool** throughout the process. It helps me:
 
-- Think through edge cases  
-- Suggest improvements or alternative approaches  
-- Clarify technical questions as they arise  
-- Maintain flow without getting stuck on small details  
+- Think through edge cases
+- Suggest improvements or alternative approaches
+- Clarify technical questions as they arise
+- Maintain flow without getting stuck on small details
 
 Although my current approach centers on **TDD**, it naturally blends with other practices like:
 
-- **BDD (Behavior-Driven Development)** – by defining requirements in terms of behavior and user expectations  
-- **CDD (Component-Driven Development)** – by building components in isolation and documenting them with Storybook  
+- **BDD (Behavior-Driven Development)** – by defining requirements in terms of behavior and user expectations
+- **CDD (Component-Driven Development)** – by building components in isolation and documenting them with Storybook
 
 In the future, I plan to explore these approaches more intentionally, and may also try out others like **FDD (Feature-Driven Development)** or even **DDD (Domain-Driven Design)** for larger-scale architecture challenges.
 

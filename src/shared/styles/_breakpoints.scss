@@ -1,53 +1,54 @@
 @use 'sass:map';
 
 $breakpoints: (
-  "xs": 320px,
-  "sm": 375px,
-  "md": 425px,
-  "lg": 768px, // tablet
-  "xl": 1024px,
-  "xl-2": 1280px,
-  "xl-3": 1440px
+  'xs': 320px,
+  'sm': 375px,
+  'md': 425px,
+  'lg': 768px,
+  // tablet
+  'xl': 1024px,
+  'xl-2': 1280px,
+  'xl-3': 1440px,
 );
 
 @mixin xs {
-  @media (min-width: map.get($breakpoints, "xs")) {
+  @media (min-width: map.get($breakpoints, 'xs')) {
     @content;
   }
 }
 
 @mixin sm {
-  @media (min-width: map.get($breakpoints, "sm")) {
+  @media (min-width: map.get($breakpoints, 'sm')) {
     @content;
   }
 }
 
 @mixin md {
-  @media (min-width: map.get($breakpoints, "md")) {
+  @media (min-width: map.get($breakpoints, 'md')) {
     @content;
   }
 }
 
 @mixin lg {
-  @media (min-width: map.get($breakpoints, "lg")) {
+  @media (min-width: map.get($breakpoints, 'lg')) {
     @content;
   }
 }
 
 @mixin xl {
-  @media (min-width: map.get($breakpoints, "xl")) {
+  @media (min-width: map.get($breakpoints, 'xl')) {
     @content;
   }
 }
 
 @mixin xl-2 {
-  @media (min-width: map.get($breakpoints, "xl-2")) {
+  @media (min-width: map.get($breakpoints, 'xl-2')) {
     @content;
   }
 }
 
 @mixin xl-3 {
-  @media (min-width: map.get($breakpoints, "xl-3")) {
+  @media (min-width: map.get($breakpoints, 'xl-3')) {
     @content;
   }
 }

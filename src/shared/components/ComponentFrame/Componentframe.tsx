@@ -9,10 +9,9 @@ interface ComponentFrameProps {
 
 export default function ComponentFrame({ title, children, className = '' }: ComponentFrameProps) {
   return (
-    <div className={className} style={{ display: "flex", flexDirection: "column" }}>
-      {title ? <h4 className={style.h4}>{title}</h4>: null}
-      <div className={style.componentFrame}>{children}
-      </div>
+    <div className={className} style={{ display: 'flex', flexDirection: 'column' }}>
+      {title ? <h4 className={style.h4}>{title}</h4> : null}
+      <div className={style.componentFrame}>{children}</div>
     </div>
   );
 }

@@ -26,14 +26,13 @@ export default function Slider({ min, max, step, value, onChange }: SliderProps)
     }
   };
 
-   type StyleWithCustomProperty = React.CSSProperties & {
+  type StyleWithCustomProperty = React.CSSProperties & {
     '--filled-width': string;
   };
 
-    const dynamicWidth: StyleWithCustomProperty = {
-    '--filled-width': `${percentage}%`
+  const dynamicWidth: StyleWithCustomProperty = {
+    '--filled-width': `${percentage}%`,
   };
-  
 
   return (
     <div className={style.custom_slider}>

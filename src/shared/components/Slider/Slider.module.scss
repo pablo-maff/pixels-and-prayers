@@ -3,11 +3,10 @@
   flex-direction: column;
   width: 100%;
   position: relative;
-  p{
-     margin: 0 auto;
+  p {
+    margin: 0 auto;
   }
 }
-
 
 .slider_input {
   appearance: none;
@@ -17,7 +16,7 @@
   position: absolute;
   z-index: 2;
   top: -6px;
-  
+
   &::-webkit-slider-thumb {
     appearance: none;
     height: 16px;
