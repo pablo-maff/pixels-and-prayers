@@ -1,0 +1,31 @@
+@use './variables' as *;
+@use './breakpoints' as *;
+
+.wrapper {
+  border: 1px solid grey;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 2rem;
+  padding: 3rem;
+  border-radius: $radius;
+  padding: 1rem;
+  @include lg {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include xl {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @include xl-2 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Helper classes - grid layout - children */
+
+.row-span {
+  grid-row: span 12;
+}
+
+.col-full {
+  grid-column: 1 / -1;
+}

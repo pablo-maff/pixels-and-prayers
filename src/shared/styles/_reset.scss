@@ -17,7 +17,10 @@ html {
 
 body {
   min-height: 100vh;
-  text-size-adjust: none; /* to remove if we want to allow zoom-based resizing */
+  text-size-adjust: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Prevents native form elements from falling back to the browser's default UI font */

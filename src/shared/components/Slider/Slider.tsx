@@ -1,0 +1,55 @@
+import style from './Slider.module.scss';
+interface SliderProps {
+  min: number;
+  max: number;
+  step: number;
+  value: number;
+  onChange: (value: number) => void;
+}
+
+export default function Slider({ min, max, step, value, onChange }: SliderProps) {
+  const percentage = ((value - min) / (max - min)) * 100;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = Number(e.target.value);
+    onChange?.(newValue);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    let newValue = value;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+      newValue = Math.min(value + step, max);
+      onChange?.(newValue);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+      newValue = Math.max(value - step, min);
+      onChange?.(newValue);
+    }
+  };
+
+  type StyleWithCustomProperty = React.CSSProperties & {
+    '--filled-width': string;
+  };
+
+  const dynamicWidth: StyleWithCustomProperty = {
+    '--filled-width': `${percentage}%`,
+  };
+
+  return (
+    <div className={style.custom_slider}>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        className={style.slider_input}
+      />
+      <div className={style.track}>
+        <div className={style.filled} style={dynamicWidth} />
+      </div>
+      <p>{value}</p>
+    </div>
+  );
+}

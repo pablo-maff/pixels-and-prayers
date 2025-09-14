@@ -1,6 +1,7 @@
 .container {
   position: relative;
-  width: 100%;
+  width: fit-content;
+  height: fit-content;
 }
 
 .dropdown {
@@ -9,12 +10,14 @@
   left: 0;
   z-index: 10;
   width: 100%;
+  max-height: 7rem;
   margin-top: 0.25rem;
   padding: 0.25rem 0;
   background-color: #fff;
   border: 1px solid $color-ghost-border;
   border-radius: $radius;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  overflow-y: scroll;
 }
 
 .option {
@@ -31,4 +34,8 @@
     background-color: $color-primary;
     color: white;
   }
+}
+
+label {
+  display: block;
 }
