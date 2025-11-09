@@ -4,7 +4,7 @@ import styles from './Button.module.scss';
 import type { ButtonHTMLAttributes } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactElement;
+  children: React.ReactNode;
   variant?: Variant;
   size?: Size;
   isLoading?: boolean;
