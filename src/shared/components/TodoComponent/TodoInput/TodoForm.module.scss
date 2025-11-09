@@ -1,0 +1,7 @@
+.formSubmit {
+  display: flex;
+  gap: 1rem;
+  & label {
+    flex: 0 1 auto;
+  }
+}

@@ -5,6 +5,7 @@ import { Counter } from '@components/Counter/Counter';
 import { Input } from '@components/Input/Input';
 import Slider from '@components/Slider/Slider';
 import { useState } from 'react';
+import { TodoForm } from '@components/TodoComponent/TodoInput/TodoForm';
 
 const autoCompleteItems = ['Tadej Pogačar', 'Jonas Vingegaard', 'Remco Evenepoel', 'Primož Roglič'];
 
@@ -37,6 +38,10 @@ function App() {
         <h5>Dynamic width fill</h5>
         <Slider min={0} max={100} step={5} value={sliderValue} onChange={setSliderValue} />
         <h5>Flex Grow fill</h5>
+      </ComponentFrame>
+
+      <ComponentFrame title="TODO FORM">
+        <TodoForm/>
       </ComponentFrame>
     </div>
   );
