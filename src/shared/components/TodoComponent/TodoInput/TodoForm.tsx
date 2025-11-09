@@ -20,7 +20,7 @@ export function TodoForm() {
           placeholder="Write your next task"
         />
       </label>
-      <Button>+</Button>
+      <Button type='submit'>+</Button>
     </form>
   );
 }
