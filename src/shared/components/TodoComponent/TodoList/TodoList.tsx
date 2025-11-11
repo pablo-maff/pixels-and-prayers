@@ -1,21 +1,17 @@
-export default function TodoList({ items, isLoading }: { items: boolean; isLoading: boolean }) {
-  // TODO: With the current tests, modify this component so it renders a dynamic list
-  // * You could improve the tests by asserting on the list elements
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
+import { TodoItem } from "../TodoItem/TodoItem";
+import type { TodoItemProps } from "../TodoItem/TodoItem";
 
+export function TodoList({ todos }: { todos: TodoItemProps[] }) {
   return (
     <>
-      {items ? (
+      {todos && todos.length > 0 ? (
         <ul>
-          <li>BlaBla</li>
-          <li>BlaBla</li>
-          <li>BlaBla</li>
-          <li>BlaBla</li>
+          {todos.map((item) => (
+            <TodoItem item={item} key={item.id}/>
+          ))}
         </ul>
       ) : (
-        <p>no items avaible</p>
+        <p>What are you up to?</p>
       )}
     </>
   );
