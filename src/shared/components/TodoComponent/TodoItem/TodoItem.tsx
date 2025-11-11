@@ -1,7 +1,7 @@
 import style from './TodoItem.module.scss';
 import { Button } from '@components/Button/Button';
 
-interface TodoItemProps {
+export interface TodoItemProps {
   id: string;
   title: string;
   completed: boolean;
