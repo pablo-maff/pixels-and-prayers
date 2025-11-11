@@ -5,15 +5,14 @@ import { Counter } from '@components/Counter/Counter';
 import { Input } from '@components/Input/Input';
 import Slider from '@components/Slider/Slider';
 import { useState } from 'react';
-import { TodoForm } from '@components/TodoComponent/TodoInput/TodoForm';
-import { TodoItem } from '@components/TodoComponent/TodoItem/TodoItem';
+import { TodoComponent } from '@components/TodoComponent/TodoComponent';
 
 const autoCompleteItems = ['Tadej Pogačar', 'Jonas Vingegaard', 'Remco Evenepoel', 'Primož Roglič'];
 
 function App() {
   const [value, setValue] = useState('');
   const [sliderValue, setSliderValue] = useState(0);
-  const sampleItem = { id: '1', title: 'Buy groceries', completed: false };
+
   return (
     <div className="wrapper">
       <ComponentFrame className="col-full row-span">
@@ -43,8 +42,7 @@ function App() {
       </ComponentFrame>
 
       <ComponentFrame title="TODO FORM" className="col-full row-span">
-        <TodoForm />
-        <TodoItem item={sampleItem} />
+        <TodoComponent />
       </ComponentFrame>
     </div>
   );
