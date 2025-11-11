@@ -1,0 +1,30 @@
+.todo_item {
+  list-style-type: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 400px;
+  max-width: 600px;
+  box-shadow: 1px 1px 5px grey;
+  border-radius: 10px;
+  padding: 0.8rem;
+
+  .todo_items_left {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+    circle {
+      fill: aqua;
+    }
+  }
+  .todo_items_right {
+    display: flex;
+    gap: 0.5rem;
+  }
+}
