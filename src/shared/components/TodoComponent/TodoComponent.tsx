@@ -1,22 +1,15 @@
 import { TodoForm } from './TodoForm/TodoForm';
 import { TodoList } from './TodoList/TodoList';
 import { useState } from 'react';
+import type { TodoItemProps } from './TodoItem/TodoItem';
+import style from './TodoComponent.module.scss';
 
 export function TodoComponent() {
-  const data = [
-    { title: 'Some task', id: self.crypto.randomUUID(), completed: false },
-    {
-      title: 'Some other task',
-      id: self.crypto.randomUUID(),
-      completed: true,
-    },
-    { title: 'last task', id: self.crypto.randomUUID(), completed: false },
-  ];
-  const [todos, setTodos] = useState(data);
+  const [todos, setTodos] = useState<TodoItemProps[]>([]);
   return (
-    <>
-      <TodoForm/>
+    <div className={style.todo_component}>
+      <TodoForm setTodos={setTodos} />
       <TodoList todos={todos} />
-    </>
+    </div>
   );
 }
